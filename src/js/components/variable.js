@@ -20,12 +20,12 @@ class ConnectedValue extends React.Component {
 
   increase(){
     const variable = this.props.variable
-    this.props.updateVariableValue(this.props.index, variable.value + variable.config.step)
+    this.props.updateVariableValue(this.props.index, variable.value + variable.step)
   }
 
   decrease(){
     const variable = this.props.variable
-    this.props.updateVariableValue(this.props.index, variable.value - variable.config.step)
+    this.props.updateVariableValue(this.props.index, variable.value - variable.step)
   }
 
   handleChange(event){

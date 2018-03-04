@@ -12,10 +12,11 @@ const initialState = {
       value: 30 ,
       label: 'Time',
       type: 'variable',
-      config: {
-        step: 10
-      }
+      // Configurations
+      step: 10
     },
+  ],
+  constants: [
     { 
       id: uuidv1(), 
       name: "C", 

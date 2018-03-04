@@ -12,10 +12,13 @@ import {
 } from "../constants/actionTypes"
 
 
-function reduceScope (listOfVariables){
+function reduceScope (variables, constants){
   let scope = {}
-  listOfVariables.forEach(variable => {
+  variables.forEach(variable => {
     scope[variable.name] = Number(variable.value)
+  })
+  constants.forEach(constant => {
+    scope[constant.name] = Number(constant.value)
   })
   return scope
 }
@@ -61,7 +64,7 @@ const rootReducer = (state=initialState, action) => {
         ...state,
         expression: {
           ...state.expression,
-          result: math.eval(state.expression.expression, reduceScope(state.variables))
+          result: math.eval(state.expression.expression, reduceScope(state.variables, state.constants))
         }
       }
     case UPDATE_VARIABLE_NAME:
