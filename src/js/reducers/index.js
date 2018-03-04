@@ -1,4 +1,10 @@
-import { ADD_ARTICLE, UPDATE_TITLE, UPDATE_DESCRIPTION } from "../constants/actionTypes"
+import { 
+  ADD_ARTICLE, 
+  UPDATE_TITLE, 
+  UPDATE_DESCRIPTION,
+  UPDATE_EXPRESSION,
+  EVAL_EXPRESSION
+} from "../constants/actionTypes"
 
 
 const initialState = {
@@ -8,7 +14,11 @@ const initialState = {
   },
   articles: [
     {id: 1, title: 'wtf is this'}
-  ]
+  ],
+  expression: {
+    expression: "33 + 2",
+    result: 0,
+  }
 }
 
 // The reducer is a pure function that 
@@ -37,6 +47,22 @@ const rootReducer = (state=initialState, action) => {
         meta: {
           ...state.meta,
           description: action.payload
+        }
+      }
+    case UPDATE_EXPRESSION:
+      return {
+        ...state,
+        expression: {
+          ...state.expression,
+          expression: action.payload
+        }
+      }
+    case EVAL_EXPRESSION:
+      return {
+        ...state,
+        expression: {
+          ...state.expression,
+          result: eval(state.expression.expression)
         }
       }
     default:

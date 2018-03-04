@@ -4,6 +4,7 @@ import './App.css';
 import { List } from './js/components/list'
 import { Form } from './js/components/form'
 import Meta from './js/components/meta'
+import { Expression, Result } from './js/components/expression'
 
 
 class App extends Component {
@@ -11,15 +12,8 @@ class App extends Component {
     return (
       <div className="App">
         <Meta />
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <List />
-        <Form />
+        <Expression />
+        <Result />
       </div>
     );
   }

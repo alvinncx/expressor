@@ -1,4 +1,10 @@
-import { ADD_ARTICLE, UPDATE_TITLE, UPDATE_DESCRIPTION } from "../constants/actionTypes"
+import { 
+  ADD_ARTICLE, 
+  UPDATE_TITLE, 
+  UPDATE_DESCRIPTION,
+  UPDATE_EXPRESSION,
+  EVAL_EXPRESSION
+} from "../constants/actionTypes"
 
 // Actions are payloads of information that send data 
 // from your application to your store. 
@@ -27,4 +33,23 @@ const updateDescription = (text) => {
   }
 }
 
-export { addArticle, updateTitle, updateDescription }
+const updateExpression = (text) => {
+  return {
+    type: UPDATE_EXPRESSION,
+    payload: text
+  }
+}
+
+const evaluateExpression = () => {
+  return {
+    type: EVAL_EXPRESSION
+  }
+}
+
+export { 
+  addArticle, 
+  updateTitle, 
+  updateDescription,
+  updateExpression,
+  evaluateExpression
+}
