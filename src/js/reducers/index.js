@@ -2,6 +2,11 @@
 import initialState from '../store/init'
 import math from "mathjs"
 import { 
+  reduceScope,
+  findInequalityPositions,
+  evaluateTwoSidedInequality
+} from '../utils'
+import { 
   ADD_ARTICLE, 
   UPDATE_TITLE, 
   UPDATE_DESCRIPTION,
@@ -10,20 +15,29 @@ import {
   UPDATE_VARIABLE_NAME,
   UPDATE_VARIABLE_VALUE,
   UPDATE_CONSTANT_VALUE,
-  UPDATE_CONSTANT_NAME
+  UPDATE_CONSTANT_NAME,
+  RESOLVE_CONSTANT_VALUE,
 } from "../constants/actionTypes"
 
 
-function reduceScope (variables, constants){
-  let scope = {}
-  variables.forEach(variable => {
-    scope[variable.name] = Number(variable.value)
-  })
-  constants.forEach(constant => {
-    scope[constant.name] = Number(constant.value)
-  })
-  return scope
+function evaluateConditionalStatement (condition, scope){
+  if (findInequalityPositions(condition.statement).length > 1 ){    
+    return evaluateTwoSidedInequality(condition.statement, scope)
+  } else {
+    return math.eval(condition.statement, scope)
+  }
 }
+
+function resolveConditions (constant, scope){
+  let trueCondition = constant.conditions.find((condition) => {
+    return evaluateConditionalStatement(condition, scope)
+  })
+  trueCondition ? 
+    constant.trueConditionId = trueCondition.id :
+    constant.trueConditionId = undefined
+  constant.value = math.eval(trueCondition.expression, scope)
+  return constant
+} 
 
 // The reducer is a pure function that 
 // takes the previous state and an action, and returns the next state.
@@ -110,6 +124,16 @@ const rootReducer = (state=initialState, action) => {
           return {
             ...item,
             value: action.payload
+          }
+        })
+      }
+    case RESOLVE_CONSTANT_VALUE:
+      return {
+        ...state,
+        constants: state.constants.map((item, index) => {
+          if (index !== action.index) return item
+          return {
+            ...resolveConditions(item, reduceScope(state.variables, state.constants)),
           }
         })
       }

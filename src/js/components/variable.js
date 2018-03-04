@@ -29,7 +29,6 @@ class ConnectedValue extends React.Component {
   }
 
   handleChange(event){
-   const variable = this.props.variable
     this.props.updateVariableValue(this.props.index, event.target.value) 
   }
 

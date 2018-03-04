@@ -2,43 +2,61 @@ import React from "react"
 import { connect } from "react-redux"
 import { 
   updateConstantName,
-  updateConstantValue
+  updateConstantValue,
+  resolveConstantValue
  } from "../actions"
 
 const mapDispatchToProps = dispatch => ({
-  updateConstantName: (id, text) => ( dispatch( updateConstantName(id, text) ) ),
-  updateConstantValue: (id, float) => ( dispatch( updateConstantValue(id, float) ) )
+  updateConstantName: (index, text) => ( dispatch( updateConstantName(index, text) ) ),
+  updateConstantValue: (index, float) => ( dispatch( updateConstantValue(index, float) ) ),
+  resolveConstantValue: (index) => ( dispatch(resolveConstantValue(index)) )
 })
 
-class ConnectedValue extends React.Component {
-  constructor(){
-    super()
-    this.handleChange = this.handleChange.bind(this)
-  }
+const Value = ({ constant }) => (
+  <h3>{ constant.value }</h3>
+)
 
-  handleChange(event){
-   const constant = this.props.constant
-    this.props.updateConstantValue(this.props.index, event.target.value) 
-  }
 
+class Condition extends React.Component {
   render(){
-    const constant = this.props.constant
+    const condition = this.props.condition
     return (
-      <div>
-        <input value={ constant.value } onChange={ this.handleChange }/>
-      </div>
+      <input value={ condition.statement } />
     )
   }
 }
 
-const Value = connect(null, mapDispatchToProps)(ConnectedValue)
+const CurrentCondition = ({ constant }) => (
+  // Show current that is true, or show default.
+  constant.trueConditionId ? (
+    // Has true
+    <div>
+      Current statement: 
+      {
+        constant.conditions.find(condition => {
+          return condition.id === constant.trueConditionId
+        }).statement 
+      }
+    </div>
+  ) : (
+    <div>
+      <p>Current statement: { constant.default }</p>
+    </div>
+  )
+)
 
-class ConnectedVariable extends React.Component {
+class ConnectedConstant extends React.Component {
   constructor(){
     super()
     this.state = { editing: false }
     this.toggleEdit = this.toggleEdit.bind(this)
     this.handleNameChange = this.handleNameChange.bind(this)
+  }
+
+  componentDidMount(){
+    // Check all conditions
+    console.log('constant component mount: check conditions', this.props.index)
+    this.props.resolveConstantValue(this.props.index)
   }
 
   toggleEdit(){
@@ -55,6 +73,13 @@ class ConnectedVariable extends React.Component {
       <div>
         <Value constant={ constant } index={this.props.index} />
         <input value={ constant.name } onChange={ this.handleNameChange } />
+          { constant.conditions.map((condition, index) => {
+            return <Condition condition={condition} key={condition.id} index={index} />
+          }) }
+        <div>
+          Default
+          <input value={ constant.default } />
+        </div>
         <button onClick={ this.toggleEdit }>Save</button>
       </div>
       ): (
@@ -62,13 +87,14 @@ class ConnectedVariable extends React.Component {
         <Value constant={ constant } index={this.props.index} />
         <h3>{ constant.name }</h3>
         <p>{ constant.label }</p>
+        <CurrentCondition constant={constant} />
         <button onClick={ this.toggleEdit }>Edit</button>
       </div>
     )
   }
 }
 
-const Constant = connect(null, mapDispatchToProps)(ConnectedVariable)
+const Constant = connect(null, mapDispatchToProps)(ConnectedConstant)
 
 
 export default Constant

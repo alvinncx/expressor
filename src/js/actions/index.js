@@ -7,7 +7,8 @@ import {
   UPDATE_VARIABLE_NAME,
   UPDATE_VARIABLE_VALUE,
   UPDATE_CONSTANT_VALUE,
-  UPDATE_CONSTANT_NAME
+  UPDATE_CONSTANT_NAME,
+  RESOLVE_CONSTANT_VALUE
 } from "../constants/actionTypes"
 
 // Actions are payloads of information that send data 
@@ -76,6 +77,13 @@ const updateConstantValue = (index, float) => {
   }
 }
 
+const resolveConstantValue = (index) => {
+  return {
+    type: RESOLVE_CONSTANT_VALUE,
+    index: index,
+  } 
+}
+
 const evaluateExpression = () => {
   return {
     type: EVAL_EXPRESSION
@@ -92,4 +100,5 @@ export {
   updateVariableValue,
   updateConstantName,
   updateConstantValue,
+  resolveConstantValue
 }
