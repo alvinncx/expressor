@@ -8,7 +8,9 @@ import {
   UPDATE_EXPRESSION,
   EVAL_EXPRESSION,
   UPDATE_VARIABLE_NAME,
-  UPDATE_VARIABLE_VALUE
+  UPDATE_VARIABLE_VALUE,
+  UPDATE_CONSTANT_VALUE,
+  UPDATE_CONSTANT_NAME
 } from "../constants/actionTypes"
 
 
@@ -82,6 +84,28 @@ const rootReducer = (state=initialState, action) => {
       return {
         ...state,
         variables: state.variables.map((item, index) => {
+          if (index !== action.index) return item
+          return {
+            ...item,
+            value: action.payload
+          }
+        })
+      }
+    case UPDATE_CONSTANT_NAME:
+      return {
+        ...state,
+        constants: state.constants.map((item, index) => {
+          if (index !== action.index) return item
+          return {
+            ...item,
+            name: action.payload
+          }
+        })
+      }
+    case UPDATE_CONSTANT_VALUE:
+      return {
+        ...state,
+        constants: state.constants.map((item, index) => {
           if (index !== action.index) return item
           return {
             ...item,

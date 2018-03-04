@@ -5,7 +5,9 @@ import {
   UPDATE_EXPRESSION,
   EVAL_EXPRESSION,
   UPDATE_VARIABLE_NAME,
-  UPDATE_VARIABLE_VALUE
+  UPDATE_VARIABLE_VALUE,
+  UPDATE_CONSTANT_VALUE,
+  UPDATE_CONSTANT_NAME
 } from "../constants/actionTypes"
 
 // Actions are payloads of information that send data 
@@ -58,6 +60,22 @@ const updateVariableValue = (index, float) => {
   }
 }
 
+const updateConstantName = (index, text) => {
+  return {
+    type: UPDATE_CONSTANT_NAME,
+    index: index,
+    payload: text 
+  }
+}
+
+const updateConstantValue = (index, float) => {
+  return {
+    type: UPDATE_CONSTANT_VALUE,
+    index: index,
+    payload: float
+  }
+}
+
 const evaluateExpression = () => {
   return {
     type: EVAL_EXPRESSION
@@ -71,5 +89,7 @@ export {
   updateExpression,
   evaluateExpression,
   updateVariableName,
-  updateVariableValue
+  updateVariableValue,
+  updateConstantName,
+  updateConstantValue,
 }
