@@ -55,7 +55,6 @@ class ConnectedConstant extends React.Component {
 
   componentDidMount(){
     // Check all conditions
-    console.log('constant component mount: check conditions', this.props.index)
     this.props.resolveConstantValue(this.props.index)
   }
 

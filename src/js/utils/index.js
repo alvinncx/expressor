@@ -56,9 +56,37 @@ const resolveConditions = function(constant, scope){
   return constant
 } 
 
+const updateObjectInCollection = function(state, collection, key, value, index) {
+  return {
+    ...state,
+    [collection]: state[collection].map((item, index_in) => {
+      if (index_in !== index) return item
+      return {
+        ...item,
+        [key]: value
+      }
+    })
+  }
+}
+
+const resolveConstantValues = (state, action) => (
+  {
+    ...state,
+    constants: state.constants.map((item, index) => {
+      if (index !== action.index) return item
+      return {
+        ...resolveConditions(item, reduceScope(state.variables, state.constants)),
+      }
+    })
+  }
+)
+
+
 export { 
   evaluateTwoSidedInequality,
   findInequalityPositions,
   reduceScope,
-  resolveConditions
+  resolveConditions,
+  updateObjectInCollection,
+  resolveConstantValues
 }
