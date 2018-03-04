@@ -1,56 +1,15 @@
 // reducers
-import uuidv1 from "uuid"
+import initialState from '../store/init'
 import math from "mathjs"
 import { 
   ADD_ARTICLE, 
   UPDATE_TITLE, 
   UPDATE_DESCRIPTION,
   UPDATE_EXPRESSION,
-  EVAL_EXPRESSION
+  EVAL_EXPRESSION,
+  UPDATE_VARIABLE_NAME
 } from "../constants/actionTypes"
 
-
-
-const initialState = {
-  meta: {
-    title: "Calculator",
-    description: "This is an awesome programmable calculator!"
-  },
-  variables: [
-    { 
-      id: uuidv1(), 
-      name: "t", 
-      value: 30 , 
-      label: 'Time',
-      type: 'variable',
-      config: {
-        step: 10
-      }
-    },
-    { 
-      id: uuidv1(), 
-      name: "C", 
-      value: 1.45 , 
-      label: 'Constant',
-      type: 'conditional',
-      // Only takes one configuration
-      config: {
-        conditions: [
-          // Assess security of these statements, maybe escape
-          { id: uuidv1(), statement: "d < 0", value: "0" },
-          { id: uuidv1(), statement: "0 <= d < 100", value: "1.45 * t" },
-          { id: uuidv1(), statement: "100 <= d < 500", value: "2.58" },
-        ],
-        current_true_id: undefined,
-        default: "3 t"
-      }
-    }
-  ],
-  expression: {
-    expression: "C * t",
-    result: 0,
-  }
-}
 
 function reduceScope (listOfVariables){
   let scope = {}
@@ -103,6 +62,17 @@ const rootReducer = (state=initialState, action) => {
           ...state.expression,
           result: math.eval(state.expression.expression, reduceScope(state.variables))
         }
+      }
+    case UPDATE_VARIABLE_NAME:
+      return {
+        ...state,
+        variables: state.variables.map((item, index) => {
+          if (index !== action.index) return item
+          return {
+            ...item,
+            name: action.payload
+          }
+        })
       }
     default:
       return state

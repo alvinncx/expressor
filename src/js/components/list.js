@@ -1,34 +1,31 @@
 import React from 'react';
 import { connect } from "react-redux";
-
+import Variable from './variable'
 
 const mapStateToProps = (state) => {
   return { 
-    articles: state.articles
+    variables: state.variables
   }
 }
 
 // Functional component React
-const ConnectedList = ({ articles }) => (
-  articles.length == 0 
+const ConnectedVariableList = ({ variables }) => (
+  variables.length == 0 
   ? 
   // No articles found
-  <p>No articles</p> 
+  <p>No variables</p> 
   :
   // Articles found
-  <ul>
-    { articles.map(el => (
-        <li key={el.id}>
-          { el.title }
-        </li>
+  <div>
+    { variables.map( (el, index) => (
+        <Variable variable={el} key={el.id} index={index} />
           )
       ) }
-  </ul>
+  </div>
 
 )
 
+const VariableList = connect(mapStateToProps)(ConnectedVariableList);
 
-const List = connect(mapStateToProps)(ConnectedList);
 
-
-export { List };
+export default VariableList
