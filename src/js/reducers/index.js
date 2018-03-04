@@ -13,7 +13,6 @@ import {
   EVAL_EXPRESSION,
   UPDATE_VARIABLE_NAME,
   UPDATE_VARIABLE_VALUE,
-  UPDATE_CONSTANT_VALUE,
   UPDATE_CONSTANT_NAME,
   RESOLVE_CONSTANT_VALUE,
 } from "../constants/actionTypes"
@@ -21,6 +20,32 @@ import {
 
 // The reducer is a pure function that 
 // takes the previous state and an action, and returns the next state.
+
+const resolveConstantValues = (state, action) => (
+  {
+    ...state,
+    constants: state.constants.map((item, index) => {
+      if (index !== action.index) return item
+      return {
+        ...resolveConditions(item, reduceScope(state.variables, state.constants)),
+      }
+    })
+  }
+)
+
+function updateObjectInCollection(state, collection, key, value, index) {
+  return {
+    ...state,
+    [collection]: state[collection].map((item, index_in) => {
+      if (index_in !== index) return item
+      return {
+        ...item,
+        [key]: value
+      }
+    })
+  }
+}
+
 
 // Every reducer takes a state and action
 const rootReducer = (state=initialState, action) => {
@@ -64,60 +89,13 @@ const rootReducer = (state=initialState, action) => {
         }
       }
     case UPDATE_VARIABLE_NAME:
-      return {
-        ...state,
-        variables: state.variables.map((item, index) => {
-          if (index !== action.index) return item
-          return {
-            ...item,
-            name: action.payload
-          }
-        })
-      }
+      return updateObjectInCollection(state, 'variables', 'name', action.payload, action.index) 
     case UPDATE_VARIABLE_VALUE:
-      return {
-        ...state,
-        variables: state.variables.map((item, index) => {
-          if (index !== action.index) return item
-          return {
-            ...item,
-            value: action.payload
-          }
-        })
-      }
+      return updateObjectInCollection(state, 'variables', 'value', action.payload, action.index) 
     case UPDATE_CONSTANT_NAME:
-      return {
-        ...state,
-        constants: state.constants.map((item, index) => {
-          if (index !== action.index) return item
-          return {
-            ...item,
-            name: action.payload
-          }
-        })
-      }
-    case UPDATE_CONSTANT_VALUE:
-      return {
-        ...state,
-        constants: state.constants.map((item, index) => {
-          if (index !== action.index) return item
-          return {
-            ...item,
-            value: action.payload
-          }
-        })
-      }
-    case RESOLVE_CONSTANT_VALUE:
-      return {
-        ...state,
-        constants: state.constants.map((item, index) => {
-          if (index !== action.index) return item
-          return {
-            ...resolveConditions(item, reduceScope(state.variables, state.constants)),
-          }
-        })
-      }
-
+      return updateObjectInCollection(state, 'constants', 'name', action.payload, action.index) 
+    case RESOLVE_CONSTANT_VALUE: 
+      return resolveConstantValues(state, action)
     default:
       return state
   }
