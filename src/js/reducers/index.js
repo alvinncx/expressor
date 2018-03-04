@@ -7,7 +7,8 @@ import {
   UPDATE_DESCRIPTION,
   UPDATE_EXPRESSION,
   EVAL_EXPRESSION,
-  UPDATE_VARIABLE_NAME
+  UPDATE_VARIABLE_NAME,
+  UPDATE_VARIABLE_VALUE
 } from "../constants/actionTypes"
 
 
@@ -74,6 +75,18 @@ const rootReducer = (state=initialState, action) => {
           }
         })
       }
+    case UPDATE_VARIABLE_VALUE:
+      return {
+        ...state,
+        variables: state.variables.map((item, index) => {
+          if (index !== action.index) return item
+          return {
+            ...item,
+            value: action.payload
+          }
+        })
+      }
+
     default:
       return state
   }
