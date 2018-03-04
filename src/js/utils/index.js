@@ -37,8 +37,28 @@ const reduceScope = function(variables, constants){
   return scope
 }
 
+const evaluateConditionalStatement = function(condition, scope){
+  if (findInequalityPositions(condition.statement).length > 1 ){    
+    return evaluateTwoSidedInequality(condition.statement, scope)
+  } else {
+    return math.eval(condition.statement, scope)
+  }
+}
+
+const resolveConditions = function(constant, scope){
+  let trueCondition = constant.conditions.find((condition) => {
+    return evaluateConditionalStatement(condition, scope)
+  })
+  trueCondition ? 
+    constant.trueConditionId = trueCondition.id :
+    constant.trueConditionId = undefined
+  constant.value = math.eval(trueCondition.expression, scope)
+  return constant
+} 
+
 export { 
   evaluateTwoSidedInequality,
   findInequalityPositions,
-  reduceScope
+  reduceScope,
+  resolveConditions
 }

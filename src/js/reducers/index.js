@@ -3,8 +3,7 @@ import initialState from '../store/init'
 import math from "mathjs"
 import { 
   reduceScope,
-  findInequalityPositions,
-  evaluateTwoSidedInequality
+  resolveConditions
 } from '../utils'
 import { 
   ADD_ARTICLE, 
@@ -19,25 +18,6 @@ import {
   RESOLVE_CONSTANT_VALUE,
 } from "../constants/actionTypes"
 
-
-function evaluateConditionalStatement (condition, scope){
-  if (findInequalityPositions(condition.statement).length > 1 ){    
-    return evaluateTwoSidedInequality(condition.statement, scope)
-  } else {
-    return math.eval(condition.statement, scope)
-  }
-}
-
-function resolveConditions (constant, scope){
-  let trueCondition = constant.conditions.find((condition) => {
-    return evaluateConditionalStatement(condition, scope)
-  })
-  trueCondition ? 
-    constant.trueConditionId = trueCondition.id :
-    constant.trueConditionId = undefined
-  constant.value = math.eval(trueCondition.expression, scope)
-  return constant
-} 
 
 // The reducer is a pure function that 
 // takes the previous state and an action, and returns the next state.
