@@ -76,6 +76,15 @@ const resolveConstantValue = (index) => {
   } 
 }
 
+const updateConditionExpression = (index_cond,index_const, text) => {
+  return {
+    type: "UPDATE_CONDITION_EXPRESSION",
+    index_cond: index_cond,
+    index_const: index_const,
+    payload: text,
+  } 
+}
+
 const evaluateExpression = () => {
   return {
     type: EVAL_EXPRESSION
@@ -91,5 +100,6 @@ export {
   updateVariableValue,
   updateConstantName,
   updateConstantValue,
-  resolveConstantValue
+  resolveConstantValue,
+  updateConditionExpression
 }

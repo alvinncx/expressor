@@ -3,7 +3,7 @@ import initialState from '../store/init'
 import math from "mathjs"
 import { 
   reduceScope,
-  updateObjectInCollection,
+  updateKeyInArray,
   updateKey,
   resolveConstantValues
 } from '../utils'
@@ -24,26 +24,49 @@ import {
 const constantsReducer = function(state=[], action, scope){
   switch (action.type){
     case UPDATE_CONSTANT_NAME:
-      return updateObjectInCollection(state, 'name', action.payload, action.index)
+      return updateKeyInArray(state, 'name', action.payload, action.index)
     case RESOLVE_CONSTANT_VALUE: 
       return resolveConstantValues(state, action, scope)
+    case "UPDATE_CONDITION_EXPRESSION":
+      return state.map((item, index_in) => {
+        if (index_in !== action.index_const ) return item
+        return {
+          ...item,
+          conditions: updateKeyInArray(item.conditions, 'statement', action.payload, action.index_cond)
+        }
+      })
     default:
       return state
+  }
+}
+
+const conditionsReducer = function(state=[], action, scope){
+  switch (action.type){
+    case "UPDATE_CONDITION_EXPRESSION":
+      return state.map((item, index_in) => {
+        if (index_in !== action.index_const ) return item
+        return {
+          ...item,
+          conditions: updateKeyInArray(item.conditions, 'statement', action.payload, action.index_cond)
+        }
+      })
+  default:
+    return state
   }
 }
 
 const variablesReducer = function(state=[], action){
   switch (action.type){
     case UPDATE_VARIABLE_NAME:
-      return updateObjectInCollection(state, 'name', action.payload, action.index)
+      return updateKeyInArray(state, 'name', action.payload, action.index)
     case UPDATE_VARIABLE_VALUE:
-      return updateObjectInCollection(state, 'value', action.payload, action.index)
+      return updateKeyInArray(state, 'value', action.payload, action.index)
     default:
       return state
   }
 }
 
-const expressionReducer = function(state=[], action, scope){
+const expressionReducer = function(state={}, action, scope){
   switch (action.type){
     case UPDATE_EXPRESSION:
       return updateKey(state, 'expression', action.payload)
@@ -57,7 +80,7 @@ const expressionReducer = function(state=[], action, scope){
   }
 }
 
-const metaReducer = function(state=[], action){
+const metaReducer = function(state={}, action){
   switch (action.type) {
     case UPDATE_TITLE:
       return updateKey(state, 'title', action.payload)

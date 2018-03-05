@@ -5,6 +5,7 @@ import {
   updateConstantValue,
   resolveConstantValue
  } from "../actions"
+ import Condition from "./condition"
 
 const mapDispatchToProps = dispatch => ({
   updateConstantName: (index, text) => ( dispatch( updateConstantName(index, text) ) ),
@@ -15,16 +16,6 @@ const mapDispatchToProps = dispatch => ({
 const Value = ({ constant }) => (
   <h3>{ constant.value }</h3>
 )
-
-
-class Condition extends React.Component {
-  render(){
-    const condition = this.props.condition
-    return (
-      <input value={ condition.statement } />
-    )
-  }
-}
 
 const CurrentCondition = ({ constant }) => (
   // Show current that is true, or show default.
@@ -73,7 +64,7 @@ class ConnectedConstant extends React.Component {
         <Value constant={ constant } index={this.props.index} />
         <input value={ constant.name } onChange={ this.handleNameChange } />
           { constant.conditions.map((condition, index) => {
-            return <Condition condition={condition} key={condition.id} index={index} />
+            return <Condition condition={condition} key={condition.id} index_cond={index} index_const={this.props.index} />
           }) }
         <div>
           Default

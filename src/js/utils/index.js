@@ -56,7 +56,7 @@ const resolveConditions = function(constant, scope){
   return constant
 } 
 
-const updateObjectInCollection = function(state, key, value, index) {
+const updateKeyInArray = function(state, key, value, index) {
   return state.map((item, index_in) => {
       if (index_in !== index) return item
       return {
@@ -88,7 +88,7 @@ export {
   findInequalityPositions,
   reduceScope,
   resolveConditions,
-  updateObjectInCollection,
+  updateKeyInArray,
   updateKey,
   resolveConstantValues
 }
