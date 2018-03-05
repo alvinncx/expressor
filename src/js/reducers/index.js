@@ -40,21 +40,6 @@ const constantsReducer = function(state=[], action, scope){
   }
 }
 
-const conditionsReducer = function(state=[], action, scope){
-  switch (action.type){
-    case "UPDATE_CONDITION_EXPRESSION":
-      return state.map((item, index_in) => {
-        if (index_in !== action.index_const ) return item
-        return {
-          ...item,
-          conditions: updateKeyInArray(item.conditions, 'statement', action.payload, action.index_cond)
-        }
-      })
-  default:
-    return state
-  }
-}
-
 const variablesReducer = function(state=[], action){
   switch (action.type){
     case UPDATE_VARIABLE_NAME:
