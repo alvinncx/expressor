@@ -1,5 +1,4 @@
 import { 
-  ADD_ARTICLE, 
   UPDATE_TITLE, 
   UPDATE_DESCRIPTION,
   UPDATE_EXPRESSION,
@@ -16,13 +15,6 @@ import {
 // 
 // They are the only source of information for the store.
 // You send them to the store using store.dispatch().
-
-const addArticle = (article) => {
-  return {
-    type: ADD_ARTICLE,
-    payload: article
-  }
-}
 
 const updateTitle = (text) => {
   return {
@@ -91,7 +83,6 @@ const evaluateExpression = () => {
 }
 
 export { 
-  addArticle, 
   updateTitle, 
   updateDescription,
   updateExpression,

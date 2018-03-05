@@ -56,30 +56,31 @@ const resolveConditions = function(constant, scope){
   return constant
 } 
 
-const updateObjectInCollection = function(state, collection, key, value, index) {
-  return {
-    ...state,
-    [collection]: state[collection].map((item, index_in) => {
+const updateObjectInCollection = function(state, key, value, index) {
+  return state.map((item, index_in) => {
       if (index_in !== index) return item
       return {
         ...item,
         [key]: value
       }
-    })
+  })
+}
+
+const updateKey = function(state, key, value){
+  return {
+      ...state,
+      [key]: value
   }
 }
 
-const resolveConstantValues = (state, action) => (
-  {
-    ...state,
-    constants: state.constants.map((item, index) => {
+const resolveConstantValues = (state, action, scope) => {
+  return state.map((item, index) => {
       if (index !== action.index) return item
       return {
-        ...resolveConditions(item, reduceScope(state.variables, state.constants)),
+        ...resolveConditions(item, scope),
       }
-    })
-  }
-)
+  })
+}
 
 
 export { 
@@ -88,5 +89,6 @@ export {
   reduceScope,
   resolveConditions,
   updateObjectInCollection,
+  updateKey,
   resolveConstantValues
 }
