@@ -1,3 +1,12 @@
+import math from "mathjs"
+import { createAction } from 'redux-actions';
+import { 
+  getScope,
+  getConstants,
+  getExpression
+ } from '../selectors'
+import store from "../store"
+import { resolveConditions } from '../utils'
 import { 
   UPDATE_TITLE, 
   UPDATE_DESCRIPTION,
@@ -70,9 +79,13 @@ const updateConstantValue = (index, float) => {
 }
 
 const resolveConstantValue = (index) => {
+  const state = store.getState()
   return {
     type: RESOLVE_CONSTANT_VALUE,
     index: index,
+    payload: resolveConditions(
+      getConstants(state)[index], 
+      getScope(state)).value
   } 
 }
 
@@ -85,11 +98,15 @@ const updateConditionExpression = (index_cond,index_const, text) => {
   } 
 }
 
-const evaluateExpression = () => {
-  return {
-    type: EVAL_EXPRESSION
+// ACTION CREATORS
+const evaluateExpression = createAction(
+  "EVAL_EXPRESSION",
+  // payload
+  function(){
+    const state = store.getState()
+    return math.eval(getExpression(state), getScope(state))
   }
-}
+)
 
 export { 
   updateTitle, 

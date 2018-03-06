@@ -1,8 +1,6 @@
 // reducers
 import initialState from '../store/init'
-import math from "mathjs"
 import { 
-  reduceScope,
   updateKeyInArray,
   updateKey,
   resolveConstantValues
@@ -21,12 +19,12 @@ import {
 
 // The reducer is a pure function that 
 // takes the previous state and an action, and returns the next state.
-const constantsReducer = function(state=[], action, scope){
+const constantsReducer = function(state=[], action){
   switch (action.type){
     case UPDATE_CONSTANT_NAME:
       return updateKeyInArray(state, 'name', action.payload, action.index)
     case RESOLVE_CONSTANT_VALUE: 
-      return resolveConstantValues(state, action, scope)
+      return updateKeyInArray(state, 'value', action.payload, action.index)
     case "UPDATE_CONDITION_EXPRESSION":
       return state.map((item, index_in) => {
         if (index_in !== action.index_const ) return item
@@ -51,15 +49,12 @@ const variablesReducer = function(state=[], action){
   }
 }
 
-const expressionReducer = function(state={}, action, scope){
+const expressionReducer = function(state={}, action){
   switch (action.type){
     case UPDATE_EXPRESSION:
       return updateKey(state, 'expression', action.payload)
     case EVAL_EXPRESSION:
-      return {
-        ...state,
-        result: math.eval(state.expression, scope)
-      }
+      return updateKey(state, 'result', action.payload)
     default:
       return state
   }
@@ -79,12 +74,11 @@ const metaReducer = function(state={}, action){
 // Every reducer takes a state and action
 const rootReducer = (state=initialState, action) => {
   console.log('[Action]', action.type, action.payload)
-  const scope = reduceScope(state.variables, state.constants)
   return {
     ...state,
     meta: metaReducer(state.meta, action),
-    expression: expressionReducer(state.expression, action, scope),
-    constants: constantsReducer(state.constants, action, scope),
+    expression: expressionReducer(state.expression, action),
+    constants: constantsReducer(state.constants, action),
     variables: variablesReducer(state.variables, action)
   }
 }
