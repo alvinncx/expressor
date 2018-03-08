@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { 
   updateConstantName,
   updateConstantValue,
+  updateConstantDefault,
   resolveConstantValue
  } from "../actions"
  import Condition from "./condition"
@@ -10,6 +11,7 @@ import {
 const mapDispatchToProps = dispatch => ({
   updateConstantName: (index, text) => ( dispatch( updateConstantName(index, text) ) ),
   updateConstantValue: (index, float) => ( dispatch( updateConstantValue(index, float) ) ),
+  updateConstantDefault: (index, text) => ( dispatch( updateConstantDefault(index, text) ) ),
   resolveConstantValue: (index) => ( dispatch(resolveConstantValue(index)) )
 })
 
@@ -42,6 +44,7 @@ class ConnectedConstant extends React.Component {
     this.state = { editing: false }
     this.toggleEdit = this.toggleEdit.bind(this)
     this.handleNameChange = this.handleNameChange.bind(this)
+    this.handleDefaultChange = this.handleDefaultChange.bind(this)
   }
 
   componentDidMount(){
@@ -55,6 +58,10 @@ class ConnectedConstant extends React.Component {
 
   handleNameChange(event){
     this.props.updateConstantName(this.props.index, event.target.value)
+  }  
+
+  handleDefaultChange(event){
+    this.props.updateConstantDefault(this.props.index, event.target.value)
   }
 
   render(){
@@ -68,7 +75,7 @@ class ConnectedConstant extends React.Component {
           }) }
         <div>
           Default
-          <input value={ constant.default } />
+          <input value={ constant.default } onChange={ this.handleDefaultChange } />
         </div>
         <button onClick={ this.toggleEdit }>Save</button>
       </div>

@@ -16,6 +16,7 @@ import {
   UPDATE_VARIABLE_VALUE,
   UPDATE_CONSTANT_VALUE,
   UPDATE_CONSTANT_NAME,
+  UPDATE_CONSTANT_DEFAULT,
   UPDATE_CONDITION_EXPRESSION,
   UPDATE_CONDITION_STATEMENT,
   RESOLVE_CONSTANT_VALUE,
@@ -80,6 +81,17 @@ const updateConstantValue = (index, float) => {
     payload: float
   }
 }
+
+const updateConstantDefault = createAction(
+  UPDATE_CONSTANT_DEFAULT,
+  function(index, text){
+    return {
+      index: index,
+      expression: text
+    }
+  }
+)
+
 
 const resolveConstantValue = createAction(
   RESOLVE_CONSTANT_VALUE,
@@ -155,6 +167,7 @@ export {
   updateVariableValue,
   updateConstantName,
   updateConstantValue,
+  updateConstantDefault,
   resolveConstantValue,
   resolveAllConstantValue,
   updateConditionExpression,

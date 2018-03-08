@@ -49,8 +49,9 @@ const resolveConditions = function(constant, scope){
   let trueCondition = constant.conditions.find((condition) => {
     return evaluateConditionalStatement(condition, scope)
   })
+
   return { 
-    value: math.eval(trueCondition.expression, scope), 
+    value: trueCondition ? math.eval(trueCondition.expression, scope) : math.eval(constant.default, scope), 
     trueConditionId: trueCondition ? trueCondition.id : undefined
   }
 } 

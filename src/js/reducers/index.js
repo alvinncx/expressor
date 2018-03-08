@@ -14,6 +14,7 @@ import {
   UPDATE_VARIABLE_VALUE,
   UPDATE_CONSTANT_NAME,
   RESOLVE_CONSTANT_VALUE,
+  UPDATE_CONSTANT_DEFAULT,
   RESOLVE_ALL_CONSTANT_VALUE,
   UPDATE_CONDITION_EXPRESSION,
   UPDATE_CONDITION_STATEMENT
@@ -26,6 +27,8 @@ const constantsReducer = function(state=[], action){
   switch (action.type){
     case UPDATE_CONSTANT_NAME:
       return updateKeyInArray(state, 'name', action.payload, action.index)
+    case UPDATE_CONSTANT_DEFAULT:
+      return updateKeyInArray(state, 'default', action.payload.expression, action.payload.index)
     case RESOLVE_CONSTANT_VALUE: 
       return state.map((item, index) => {
         if (index !== action.payload.index) return item
