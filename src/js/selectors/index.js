@@ -9,7 +9,12 @@ const getScope = createSelector(
   getVariable,
   getConstants,
   (variables, constants) => {
-    return reduceScope(variables, constants)
+    return [...variables, ...constants].reduce(
+      (accumulator, currentValue, currentIndex, input) => {
+        accumulator[currentValue.name] = currentValue.value
+        return accumulator
+      }, {}
+    )
   }
 )
 

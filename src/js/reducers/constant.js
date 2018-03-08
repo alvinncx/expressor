@@ -1,6 +1,4 @@
-import { 
-  updateKeyInArray,
-} from '../utils'
+import dotProp from'dot-prop-immutable'
 import { 
   UPDATE_CONSTANT_NAME,
   RESOLVE_CONSTANT_VALUE,
@@ -17,9 +15,9 @@ import {
 const constantsReducer = function(state=[], action){
   switch (action.type){
     case UPDATE_CONSTANT_NAME:
-      return updateKeyInArray(state, 'name', action.payload, action.index)
+      return dotProp.set(state, `${action.index}.name`, action.payload)
     case UPDATE_CONSTANT_DEFAULT:
-      return updateKeyInArray(state, 'default', action.payload.expression, action.payload.index)
+      return dotProp.set(state, `${action.payload.index}.default`, action.payload.expression)
     case RESOLVE_CONSTANT_VALUE: 
       return state.map((item, index) => {
         if (index !== action.payload.index) return item
@@ -34,7 +32,7 @@ const constantsReducer = function(state=[], action){
         if (index_in !== action.payload.index_const ) return item
         return {
           ...item,
-          conditions: updateKeyInArray(item.conditions, 'statement', action.payload.statement, action.payload.index_cond)
+          conditions: dotProp.set(item.conditions, `${action.payload.index_cond}.statement`, action.payload.statement)
         }
       })
     case UPDATE_CONDITION_EXPRESSION:
@@ -42,7 +40,7 @@ const constantsReducer = function(state=[], action){
         if (index_in !== action.payload.index_const ) return item
         return {
           ...item,
-          conditions: updateKeyInArray(item.conditions, 'expression', action.payload.expression, action.payload.index_cond)
+          conditions: dotProp.set(item.conditions, `${action.payload.index_cond}.expression`, action.payload.expression)
         }
       })
     case RESOLVE_ALL_CONSTANT_VALUE:

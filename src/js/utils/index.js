@@ -26,17 +26,6 @@ const findInequalityPositions = function(statement){
   return pos
 }
 
-const reduceScope = function(variables, constants){
-  let scope = {}
-  variables.forEach(variable => {
-    scope[variable.name] = Number(variable.value)
-  })
-  constants.forEach(constant => {
-    scope[constant.name] = Number(constant.value)
-  })
-  return scope
-}
-
 const evaluateConditionalStatement = function(condition, scope){
   if (findInequalityPositions(condition.statement).length > 1 ){    
     return evaluateTwoSidedInequality(condition.statement, scope)
@@ -56,23 +45,6 @@ const resolveConditions = function(constant, scope){
   }
 } 
 
-const updateKeyInArray = function(state, key, value, index) {
-  return state.map((item, index_in) => {
-      if (index_in !== index) return item
-      return {
-        ...item,
-        [key]: value
-      }
-  })
-}
-
-const updateKey = function(state, key, value){
-  return {
-      ...state,
-      [key]: value
-  }
-}
-
 const resolveConstantValues = (state, action, scope) => {
   return state.map((item, index) => {
       if (index !== action.index) return item
@@ -86,9 +58,6 @@ const resolveConstantValues = (state, action, scope) => {
 export { 
   evaluateTwoSidedInequality,
   findInequalityPositions,
-  reduceScope,
   resolveConditions,
-  updateKeyInArray,
-  updateKey,
   resolveConstantValues
 }

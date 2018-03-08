@@ -1,6 +1,4 @@
-import { 
-  updateKeyInArray,
-} from '../utils'
+import dotProp from'dot-prop-immutable'
 import { 
   ADD_VARIABLE,
   DELETE_VARIABLE,
@@ -12,9 +10,9 @@ import {
 const variablesReducer = function(state=[], action){
   switch (action.type){
     case UPDATE_VARIABLE_NAME:
-      return updateKeyInArray(state, 'name', action.payload, action.index)
+      return dotProp.set(state, `${action.index}.name`, action.payload)
     case UPDATE_VARIABLE_VALUE:
-      return updateKeyInArray(state, 'value', action.payload, action.index)
+      return dotProp.set(state, `${action.index}.value`, action.payload)
     case ADD_VARIABLE:
       return [
         ...state,
