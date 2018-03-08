@@ -10,11 +10,13 @@ import {
   UPDATE_DESCRIPTION,
   UPDATE_EXPRESSION,
   EVAL_EXPRESSION,
+  ADD_VARIABLE,
   UPDATE_VARIABLE_NAME,
   UPDATE_VARIABLE_VALUE,
   UPDATE_CONSTANT_NAME,
   RESOLVE_CONSTANT_VALUE,
   UPDATE_CONSTANT_DEFAULT,
+  ADD_CONSTANT,
   RESOLVE_ALL_CONSTANT_VALUE,
   UPDATE_CONDITION_EXPRESSION,
   UPDATE_CONDITION_STATEMENT
@@ -66,6 +68,11 @@ const constantsReducer = function(state=[], action){
           trueConditionId: found.trueConditionId
         }
       })
+    case ADD_CONSTANT: 
+      return [
+        ...state,
+        action.payload
+      ]
     default:
       return state
   }
@@ -77,6 +84,11 @@ const variablesReducer = function(state=[], action){
       return updateKeyInArray(state, 'name', action.payload, action.index)
     case UPDATE_VARIABLE_VALUE:
       return updateKeyInArray(state, 'value', action.payload, action.index)
+    case ADD_VARIABLE:
+      return [
+        ...state,
+        action.payload
+      ]
     default:
       return state
   }

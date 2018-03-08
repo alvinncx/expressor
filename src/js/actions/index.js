@@ -1,4 +1,5 @@
 import math from "mathjs"
+import uuidv1 from "uuid"
 import { createAction } from 'redux-actions';
 import { 
   getScope,
@@ -12,10 +13,12 @@ import {
   UPDATE_DESCRIPTION,
   UPDATE_EXPRESSION,
   EVAL_EXPRESSION,
+  ADD_VARIABLE,
   UPDATE_VARIABLE_NAME,
   UPDATE_VARIABLE_VALUE,
   UPDATE_CONSTANT_VALUE,
   UPDATE_CONSTANT_NAME,
+  ADD_CONSTANT,
   UPDATE_CONSTANT_DEFAULT,
   UPDATE_CONDITION_EXPRESSION,
   UPDATE_CONDITION_STATEMENT,
@@ -50,6 +53,21 @@ const updateExpression = (text) => {
   }
 }
 
+// Variables action
+const addVariable = createAction(
+  ADD_VARIABLE,
+  function(){
+    return { 
+      id: uuidv1(), 
+      name: "d", 
+      value: 10 ,
+      label: 'Displacement',
+      // Configurations
+      step: 10
+    }
+  }
+)
+
 const updateVariableName = (index, text) => {
   return {
     type: UPDATE_VARIABLE_NAME,
@@ -65,6 +83,28 @@ const updateVariableValue = (index, float) => {
     payload: float
   }
 }
+
+const addConstant = createAction(
+  ADD_CONSTANT,
+  function(){
+    return { 
+      id: uuidv1(), 
+      name: "v", 
+      // Derived from conditions
+      value: 1.45 , 
+      label: 'Velocity',
+      // Configurations
+      conditions: [
+        // Assess security of these statements, maybe escape
+        { id: uuidv1(), statement: "t < 0", expression: "10000" },
+        { id: uuidv1(), statement: "0 <= t < 100", expression: "2" },
+        { id: uuidv1(), statement: "100 <= t < 500", expression: "3" },
+      ],
+      trueConditionId: undefined,
+      default: "3 t"
+    }
+  }
+)
 
 const updateConstantName = (index, text) => {
   return {
@@ -163,11 +203,13 @@ export {
   updateDescription,
   updateExpression,
   evaluateExpression,
+  addVariable,
   updateVariableName,
   updateVariableValue,
   updateConstantName,
   updateConstantValue,
   updateConstantDefault,
+  addConstant,
   resolveConstantValue,
   resolveAllConstantValue,
   updateConditionExpression,
