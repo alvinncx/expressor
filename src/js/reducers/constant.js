@@ -1,6 +1,5 @@
 import { 
   updateKeyInArray,
-  updateKey,
 } from '../utils'
 import { 
   UPDATE_CONSTANT_NAME,

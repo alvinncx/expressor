@@ -1,6 +1,5 @@
 import { 
   updateKeyInArray,
-  updateKey,
 } from '../utils'
 import { 
   ADD_VARIABLE,

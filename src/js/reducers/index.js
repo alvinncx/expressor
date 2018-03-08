@@ -1,7 +1,6 @@
 // reducers
 import initialState from '../store/init'
 import { 
-  updateKeyInArray,
   updateKey,
 } from '../utils'
 import { 
