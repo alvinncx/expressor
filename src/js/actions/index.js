@@ -14,11 +14,13 @@ import {
   UPDATE_EXPRESSION,
   EVAL_EXPRESSION,
   ADD_VARIABLE,
+  DELETE_VARIABLE,
   UPDATE_VARIABLE_NAME,
   UPDATE_VARIABLE_VALUE,
   UPDATE_CONSTANT_VALUE,
   UPDATE_CONSTANT_NAME,
   ADD_CONSTANT,
+  DELETE_CONSTANT,
   UPDATE_CONSTANT_DEFAULT,
   UPDATE_CONDITION_EXPRESSION,
   UPDATE_CONDITION_STATEMENT,
@@ -68,6 +70,16 @@ const addVariable = createAction(
   }
 )
 
+// Constants
+const deleteVariable = createAction(
+  DELETE_VARIABLE,
+  function(index){
+    return { 
+      index: index, 
+    }
+  }
+)
+
 const updateVariableName = (index, text) => {
   return {
     type: UPDATE_VARIABLE_NAME,
@@ -102,6 +114,16 @@ const addConstant = createAction(
       ],
       trueConditionId: undefined,
       default: "3 t"
+    }
+  }
+)
+
+// Constants
+const deleteConstant = createAction(
+  DELETE_CONSTANT,
+  function(index){
+    return { 
+      index: index, 
     }
   }
 )
@@ -203,13 +225,17 @@ export {
   updateDescription,
   updateExpression,
   evaluateExpression,
+  
   addVariable,
+  deleteVariable,
   updateVariableName,
   updateVariableValue,
   updateConstantName,
   updateConstantValue,
   updateConstantDefault,
+  
   addConstant,
+  deleteConstant,
   resolveConstantValue,
   resolveAllConstantValue,
   updateConditionExpression,

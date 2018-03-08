@@ -2,12 +2,14 @@ import React from "react"
 import { connect } from "react-redux"
 import { 
   updateVariableName,
-  updateVariableValue
+  updateVariableValue,
+  deleteVariable
  } from "../actions"
 
 const mapDispatchToProps = dispatch => ({
   updateVariableName: (id, text) => ( dispatch( updateVariableName(id, text) ) ),
-  updateVariableValue: (id, float) => ( dispatch( updateVariableValue(id, float) ) )
+  updateVariableValue: (id, float) => ( dispatch( updateVariableValue(id, float) ) ),
+  deleteVariable: (id, float) => ( dispatch( deleteVariable(id, float) ) )
 })
 
 class ConnectedValue extends React.Component {
@@ -52,6 +54,7 @@ class ConnectedVariable extends React.Component {
     this.state = { editing: false }
     this.toggleEdit = this.toggleEdit.bind(this)
     this.handleNameChange = this.handleNameChange.bind(this)
+    this.handleClickDelete = this.handleClickDelete.bind(this)
   }
 
   toggleEdit(){
@@ -62,6 +65,10 @@ class ConnectedVariable extends React.Component {
     this.props.updateVariableName(this.props.index, event.target.value)
   }
 
+  handleClickDelete(){
+    this.props.deleteVariable(this.props.index)
+  }
+
   render(){
     const variable = this.props.variable
     return this.state.editing ? ( 
@@ -69,6 +76,7 @@ class ConnectedVariable extends React.Component {
         <Value variable={ variable } index={this.props.index} />
         <input value={ variable.name } onChange={ this.handleNameChange } />
         <button onClick={ this.toggleEdit }>Save</button>
+        <button onClick={ this.handleClickDelete }>Delete</button>
       </div>
       ): (
       <div>

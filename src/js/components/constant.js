@@ -4,7 +4,8 @@ import {
   updateConstantName,
   updateConstantValue,
   updateConstantDefault,
-  resolveConstantValue
+  resolveConstantValue,
+  deleteConstant
  } from "../actions"
  import Condition from "./condition"
 
@@ -12,7 +13,8 @@ const mapDispatchToProps = dispatch => ({
   updateConstantName: (index, text) => ( dispatch( updateConstantName(index, text) ) ),
   updateConstantValue: (index, float) => ( dispatch( updateConstantValue(index, float) ) ),
   updateConstantDefault: (index, text) => ( dispatch( updateConstantDefault(index, text) ) ),
-  resolveConstantValue: (index) => ( dispatch(resolveConstantValue(index)) )
+  resolveConstantValue: (index) => ( dispatch(resolveConstantValue(index)) ),
+  deleteConstant: (index) => ( dispatch(deleteConstant(index)) ),
 })
 
 const Value = ({ constant }) => (
@@ -45,6 +47,7 @@ class ConnectedConstant extends React.Component {
     this.toggleEdit = this.toggleEdit.bind(this)
     this.handleNameChange = this.handleNameChange.bind(this)
     this.handleDefaultChange = this.handleDefaultChange.bind(this)
+    this.handleClickDelete = this.handleClickDelete.bind(this)
   }
 
   componentDidMount(){
@@ -64,6 +67,10 @@ class ConnectedConstant extends React.Component {
     this.props.updateConstantDefault(this.props.index, event.target.value)
   }
 
+  handleClickDelete(){
+    this.props.deleteConstant(this.props.index)
+  }
+
   render(){
     const constant = this.props.constant
     return this.state.editing ? ( 
@@ -78,6 +85,7 @@ class ConnectedConstant extends React.Component {
           <input value={ constant.default } onChange={ this.handleDefaultChange } />
         </div>
         <button onClick={ this.toggleEdit }>Save</button>
+        <button onClick={ this.handleClickDelete }>Delete</button>
       </div>
       ): (
       <div>
