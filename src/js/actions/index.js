@@ -16,7 +16,10 @@ import {
   UPDATE_VARIABLE_VALUE,
   UPDATE_CONSTANT_VALUE,
   UPDATE_CONSTANT_NAME,
-  RESOLVE_CONSTANT_VALUE
+  UPDATE_CONDITION_EXPRESSION,
+  UPDATE_CONDITION_STATEMENT,
+  RESOLVE_CONSTANT_VALUE,
+  RESOLVE_ALL_CONSTANT_VALUE
 } from "../constants/actionTypes"
 
 // Actions are payloads of information that send data 
@@ -78,33 +81,74 @@ const updateConstantValue = (index, float) => {
   }
 }
 
-const resolveConstantValue = (index) => {
-  const state = store.getState()
+const resolveConstantValue = createAction(
+  RESOLVE_CONSTANT_VALUE,
+  function(index){
+    const state = store.getState()
+    const constants = getConstants(state)
+    const scope = getScope(state)
+    return {
+      ...resolveConditions(constants[index], scope),
+      index: index,
+    }
+  }
+)
+
+const resolveAllConstantValue = createAction(
+  RESOLVE_ALL_CONSTANT_VALUE,
+  function(index){
+    const state = store.getState()
+    const constants = getConstants(state)
+    const scope = getScope(state)
+    return {
+      constants: constants.map((constant, index) => {
+        return {
+          ...resolveConditions(constant, scope),
+          index: index
+        }
+      }),
+    }
+  }
+)
+
+const updateConditionStatement = (index, float) => {
   return {
-    type: RESOLVE_CONSTANT_VALUE,
+    type: UPDATE_CONDITION_STATEMENT,
     index: index,
-    payload: resolveConditions(
-      getConstants(state)[index], 
-      getScope(state)).value
-  } 
+    payload: float
+  }
 }
 
 const updateConditionExpression = (index_cond,index_const, text) => {
+  const state = store.getState()
+  const constants = getConstants(state)
+  const scope = getScope(state)
+
   return {
-    type: "UPDATE_CONDITION_EXPRESSION",
+    type: UPDATE_CONDITION_EXPRESSION,
     index_cond: index_cond,
     index_const: index_const,
     payload: text,
   } 
 }
 
-// ACTION CREATORS
 const evaluateExpression = createAction(
-  "EVAL_EXPRESSION",
+  EVAL_EXPRESSION,
   // payload
   function(){
     const state = store.getState()
-    return math.eval(getExpression(state), getScope(state))
+    const constants = getConstants(state)
+    const scope = getScope(state)
+    
+    // to do, spilt into 2.
+    //  stablise the state of constants first
+    // then evaluate expression
+
+    return {
+      expression: {
+        result: math.eval(getExpression(state), getScope(state))
+      }
+    }
   }
 )
 
@@ -118,5 +162,7 @@ export {
   updateConstantName,
   updateConstantValue,
   resolveConstantValue,
-  updateConditionExpression
+  resolveAllConstantValue,
+  updateConditionExpression,
+  updateConditionStatement,
 }

@@ -49,11 +49,10 @@ const resolveConditions = function(constant, scope){
   let trueCondition = constant.conditions.find((condition) => {
     return evaluateConditionalStatement(condition, scope)
   })
-  trueCondition ? 
-    constant.trueConditionId = trueCondition.id :
-    constant.trueConditionId = undefined
-  constant.value = math.eval(trueCondition.expression, scope)
-  return constant
+  return { 
+    value: math.eval(trueCondition.expression, scope), 
+    trueConditionId: trueCondition ? trueCondition.id : undefined
+  }
 } 
 
 const updateKeyInArray = function(state, key, value, index) {

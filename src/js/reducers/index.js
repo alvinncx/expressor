@@ -3,8 +3,8 @@ import initialState from '../store/init'
 import { 
   updateKeyInArray,
   updateKey,
-  resolveConstantValues
 } from '../utils'
+
 import { 
   UPDATE_TITLE, 
   UPDATE_DESCRIPTION,
@@ -14,6 +14,9 @@ import {
   UPDATE_VARIABLE_VALUE,
   UPDATE_CONSTANT_NAME,
   RESOLVE_CONSTANT_VALUE,
+  RESOLVE_ALL_CONSTANT_VALUE,
+  UPDATE_CONDITION_EXPRESSION,
+  UPDATE_CONDITION_STATEMENT
 } from "../constants/actionTypes"
 
 
@@ -24,13 +27,40 @@ const constantsReducer = function(state=[], action){
     case UPDATE_CONSTANT_NAME:
       return updateKeyInArray(state, 'name', action.payload, action.index)
     case RESOLVE_CONSTANT_VALUE: 
-      return updateKeyInArray(state, 'value', action.payload, action.index)
-    case "UPDATE_CONDITION_EXPRESSION":
+      return state.map((item, index) => {
+        if (index !== action.payload.index) return item
+        return {
+          ...item,
+          value: action.payload.value,
+          trueConditionId: action.payload.trueConditionId
+        }
+      })
+    case UPDATE_CONDITION_STATEMENT:
       return state.map((item, index_in) => {
         if (index_in !== action.index_const ) return item
         return {
           ...item,
           conditions: updateKeyInArray(item.conditions, 'statement', action.payload, action.index_cond)
+        }
+      })
+    case UPDATE_CONDITION_EXPRESSION:
+      return state.map((item, index_in) => {
+        if (index_in !== action.index_const ) return item
+        return {
+          ...item,
+          conditions: updateKeyInArray(item.conditions, 'expression', action.payload, action.index_cond)
+        }
+      })
+    case RESOLVE_ALL_CONSTANT_VALUE:
+      return state.map((constant, index) => {
+        const found = action.payload.constants.find(item => {
+          return item.index === index
+        })
+        if (!found) return constant
+        return {
+          ...constant,
+          value: found.value,
+          trueConditionId: found.trueConditionId
         }
       })
     default:
@@ -54,7 +84,7 @@ const expressionReducer = function(state={}, action){
     case UPDATE_EXPRESSION:
       return updateKey(state, 'expression', action.payload)
     case EVAL_EXPRESSION:
-      return updateKey(state, 'result', action.payload)
+      return updateKey(state, 'result', action.payload.expression.result)
     default:
       return state
   }
@@ -73,7 +103,6 @@ const metaReducer = function(state={}, action){
 
 // Every reducer takes a state and action
 const rootReducer = (state=initialState, action) => {
-  console.log('[Action]', action.type, action.payload)
   return {
     ...state,
     meta: metaReducer(state.meta, action),

@@ -9,7 +9,7 @@ const initialState = {
     { 
       id: uuidv1(), 
       name: "t", 
-      value: 30 ,
+      value: 10 ,
       label: 'Time',
       // Configurations
       step: 10
@@ -25,9 +25,9 @@ const initialState = {
       // Configurations
       conditions: [
         // Assess security of these statements, maybe escape
-        { id: uuidv1(), statement: "t < 0", expression: "0" },
-        { id: uuidv1(), statement: "0 <= t < 100", expression: "1.45 * t" },
-        { id: uuidv1(), statement: "100 <= t < 500", expression: "2.58" },
+        { id: uuidv1(), statement: "t < 0", expression: "10000" },
+        { id: uuidv1(), statement: "0 <= t < 100", expression: "2" },
+        { id: uuidv1(), statement: "100 <= t < 500", expression: "3" },
       ],
       trueConditionId: undefined,
       default: "3 t"

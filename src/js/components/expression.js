@@ -2,7 +2,8 @@ import React from "react"
 import { connect } from "react-redux"
 import { 
   updateExpression, 
-  evaluateExpression 
+  evaluateExpression,
+  resolveAllConstantValue
 } from "../actions"
 
 
@@ -20,6 +21,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateExpression(text))
   ),
   evaluateExpression: () => (
+    dispatch(resolveAllConstantValue()),
     dispatch(evaluateExpression())
   )
 })
