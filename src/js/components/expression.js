@@ -20,10 +20,10 @@ const mapDispatchToProps = dispatch => ({
   updateExpression: text => ( 
     dispatch(updateExpression(text))
   ),
-  evaluateExpression: () => (
+  evaluateExpression: () => ([
     dispatch(resolveAllConstantValue()),
     dispatch(evaluateExpression())
-  )
+  ])
 })
 
 class ConnectedExpression extends React.Component {

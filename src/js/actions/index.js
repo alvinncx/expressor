@@ -138,13 +138,6 @@ const evaluateExpression = createAction(
   // payload
   function(){
     const state = store.getState()
-    const constants = getConstants(state)
-    const scope = getScope(state)
-    
-    // to do, spilt into 2.
-    //  stablise the state of constants first
-    // then evaluate expression
-
     return {
       expression: {
         result: math.eval(getExpression(state), getScope(state))
