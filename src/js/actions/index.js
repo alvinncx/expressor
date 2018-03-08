@@ -111,26 +111,27 @@ const resolveAllConstantValue = createAction(
   }
 )
 
-const updateConditionStatement = (index, float) => {
-  return {
-    type: UPDATE_CONDITION_STATEMENT,
-    index: index,
-    payload: float
+const updateConditionStatement = createAction(
+  UPDATE_CONDITION_STATEMENT,
+  function(index_cond, index_const, text){
+    return {
+      index_cond: index_cond,
+      index_const: index_const,
+      statement: text
+    }
   }
-}
+)
 
-const updateConditionExpression = (index_cond,index_const, text) => {
-  const state = store.getState()
-  const constants = getConstants(state)
-  const scope = getScope(state)
-
-  return {
-    type: UPDATE_CONDITION_EXPRESSION,
-    index_cond: index_cond,
-    index_const: index_const,
-    payload: text,
-  } 
-}
+const updateConditionExpression = createAction(
+  UPDATE_CONDITION_EXPRESSION,
+  function(index_cond, index_const, text){
+    return {
+      index_cond: index_cond,
+      index_const: index_const,
+      expression: text
+    }
+  }
+)
 
 const evaluateExpression = createAction(
   EVAL_EXPRESSION,

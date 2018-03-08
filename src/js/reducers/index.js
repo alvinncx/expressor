@@ -37,18 +37,18 @@ const constantsReducer = function(state=[], action){
       })
     case UPDATE_CONDITION_STATEMENT:
       return state.map((item, index_in) => {
-        if (index_in !== action.index_const ) return item
+        if (index_in !== action.payload.index_const ) return item
         return {
           ...item,
-          conditions: updateKeyInArray(item.conditions, 'statement', action.payload, action.index_cond)
+          conditions: updateKeyInArray(item.conditions, 'statement', action.payload.statement, action.payload.index_cond)
         }
       })
     case UPDATE_CONDITION_EXPRESSION:
       return state.map((item, index_in) => {
-        if (index_in !== action.index_const ) return item
+        if (index_in !== action.payload.index_const ) return item
         return {
           ...item,
-          conditions: updateKeyInArray(item.conditions, 'expression', action.payload, action.index_cond)
+          conditions: updateKeyInArray(item.conditions, 'expression', action.payload.expression, action.payload.index_cond)
         }
       })
     case RESOLVE_ALL_CONSTANT_VALUE:
