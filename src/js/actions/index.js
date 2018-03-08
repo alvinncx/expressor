@@ -24,6 +24,8 @@ import {
   UPDATE_CONSTANT_DEFAULT,
   UPDATE_CONDITION_EXPRESSION,
   UPDATE_CONDITION_STATEMENT,
+  ADD_CONDITION,
+  DELETE_CONDITION,
   RESOLVE_CONSTANT_VALUE,
   RESOLVE_ALL_CONSTANT_VALUE
 } from "../constants/actionTypes"
@@ -207,6 +209,30 @@ const updateConditionExpression = createAction(
   }
 )
 
+const addCondition = createAction(
+  ADD_CONDITION,
+  function(index){
+    return {
+      index: index,
+      condition: {
+        id: uuidv1(), 
+        statement: "t < 0", 
+        expression: "10000"
+      }
+    }
+  }
+)
+
+const deleteCondition = createAction(
+  DELETE_CONDITION,
+  function(index_cond, index_const){
+    return {
+      index_cond: index_cond, 
+      index_const: index_const
+    }
+  }
+)
+
 const evaluateExpression = createAction(
   EVAL_EXPRESSION,
   // payload
@@ -238,6 +264,9 @@ export {
   deleteConstant,
   resolveConstantValue,
   resolveAllConstantValue,
+
   updateConditionExpression,
   updateConditionStatement,
+  addCondition,
+  deleteCondition,
 }

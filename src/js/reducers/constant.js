@@ -10,7 +10,9 @@ import {
   DELETE_CONSTANT,
   RESOLVE_ALL_CONSTANT_VALUE,
   UPDATE_CONDITION_EXPRESSION,
-  UPDATE_CONDITION_STATEMENT
+  UPDATE_CONDITION_STATEMENT,
+  ADD_CONDITION,
+  DELETE_CONDITION
 } from "../constants/actionTypes"
 
 const constantsReducer = function(state=[], action){
@@ -66,6 +68,28 @@ const constantsReducer = function(state=[], action){
         ...state.slice(0, action.payload.index),
         ...state.slice(action.payload.index + 1)
       ]
+    case DELETE_CONDITION:
+      return state.map((item, index_in) => {
+        if (index_in !== action.payload.index_const ) return item
+        return {
+          ...item,
+          conditions: [
+            ...item.conditions.slice(0, action.payload.index_cond),
+            ...item.conditions.slice(action.payload.index_cond + 1)
+          ]
+        }
+      })
+    case ADD_CONDITION:
+      return state.map((item, index_in) => {
+        if (index_in !== action.payload.index ) return item
+        return {
+          ...item,
+          conditions: [
+            ...item.conditions,
+            action.payload.condition
+          ]
+        }
+      })
     default:
       return state
   }
