@@ -4,7 +4,10 @@ import {
   updateConditionExpression,
   updateConditionStatement,
   deleteCondition,
- } from "../actions"
+} from "../actions"
+import TextField from 'material-ui/TextField'
+import DeleteIcon from 'material-ui-icons/Delete'
+import IconButton from 'material-ui/IconButton'
 
 const mapDispatchToProps = dispatch => ({
   updateConditionStatement: (index_cond,index_const,text) => ( dispatch( updateConditionStatement(index_cond,index_const, text) ) ),
@@ -34,9 +37,17 @@ class ConnectedCondition extends React.Component {
     const condition = this.props.condition
     return (
       <div>
-      <input value={ condition.statement } onChange={ this.handleStatementChange } />
-      <input value={ condition.expression } onChange={ this.handleExpressionChange } />
-      <button onClick={ this.handleClickDelete }>X</button>
+      <TextField 
+        margin='normal'
+        label='Condition'
+        value={ condition.statement } onChange={ this.handleStatementChange } />
+      <TextField 
+        margin='normal'
+        label='Expression'
+        value={ condition.expression } onChange={ this.handleExpressionChange } />
+      <IconButton onClick={ this.handleClickDelete }>
+        <DeleteIcon />
+      </IconButton>
       </div>
     )
   }

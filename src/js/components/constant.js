@@ -8,7 +8,17 @@ import {
   deleteConstant,
   addCondition
  } from "../actions"
- import Condition from "./condition"
+import Condition from "./condition"
+
+import Avatar from 'material-ui/Avatar';
+import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
+import TextField from 'material-ui/TextField'
+import Typography from 'material-ui/Typography';
+import Switch from 'material-ui/Switch'
+import Collapse from 'material-ui/transitions/Collapse';
+import Button from 'material-ui/Button'
+
+
 
 const mapDispatchToProps = dispatch => ({
   updateConstantName: (index, text) => ( dispatch( updateConstantName(index, text) ) ),
@@ -28,7 +38,6 @@ const CurrentCondition = ({ constant }) => (
   constant.trueConditionId ? (
     // Has true
     <div>
-      Current statement: 
       {
         constant.conditions.find(condition => {
           return condition.id === constant.trueConditionId
@@ -36,9 +45,7 @@ const CurrentCondition = ({ constant }) => (
       }
     </div>
   ) : (
-    <div>
-      <p>Current statement: { constant.default }</p>
-    </div>
+    <div>Default: { constant.default }</div>
   )
 )
 
@@ -80,30 +87,37 @@ class ConnectedConstant extends React.Component {
 
   render(){
     const constant = this.props.constant
-    return this.state.editing ? ( 
-      <div>
-        <Value constant={ constant } index={this.props.index} />
-        <input value={ constant.name } onChange={ this.handleNameChange } />
-          { constant.conditions.map((condition, index) => {
+    return <Card>
+        <CardHeader 
+          action={
+            <Switch 
+              checked={this.state.editing}
+              onChange={this.toggleEdit}
+            />
+            }
+          avatar={<Avatar>{ constant.name }</Avatar>}
+          title={ constant.label }
+          subheader={<CurrentCondition constant={constant} />}
+        />
+        <Collapse in={this.state.editing} timeout="auto" unmountOnExit>
+          <CardContent>
+            <TextField 
+            label='Default Expression'
+            value={ constant.default } onChange={ this.handleDefaultChange } />
+            <Value constant={ constant } index={this.props.index} />
+            <TextField 
+            label='Constant Name'
+            value={ constant.name } onChange={ this.handleNameChange } />
+            { 
+              constant.conditions.map((condition, index) => {
             return <Condition condition={condition} key={condition.id} index_cond={index} index_const={this.props.index} />
-          }) }
-        <div>
-          Default
-          <input value={ constant.default } onChange={ this.handleDefaultChange } />
-        </div>
-        <button onClick={ this.toggleEdit }>Save</button>
-        <button onClick={ this.handleClickDelete }>Delete</button>
-        <button onClick={ this.handleClickAdd }>Add Condition</button>
-      </div>
-      ): (
-      <div>
-        <Value constant={ constant } index={this.props.index} />
-        <h3>{ constant.name }</h3>
-        <p>{ constant.label }</p>
-        <CurrentCondition constant={constant} />
-        <button onClick={ this.toggleEdit }>Edit</button>
-      </div>
-    )
+              }) 
+            }
+            <Button color='secondary' onClick={ this.handleClickDelete }>Delete Constant</Button>
+            <Button onClick={ this.handleClickAdd }>Add Condition</Button>
+          </CardContent>
+        </Collapse>
+      </Card>
   }
 }
 

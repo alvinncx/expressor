@@ -5,6 +5,14 @@ import {
   evaluateExpression,
   resolveAllConstantValue
 } from "../actions"
+import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
+import TextField from 'material-ui/TextField'
+import Typography from 'material-ui/Typography';
+import Switch from 'material-ui/Switch'
+import Button from 'material-ui/Button';
+import Snackbar from 'material-ui/Snackbar';
+import SendIcon from 'material-ui-icons/Send'
+
 
 
 const mapStateToProps = state => (
@@ -46,18 +54,23 @@ class ConnectedExpression extends React.Component {
 
   render(){
     const exp = this.props.expression
-    return this.state.editing ? (
-      <div>
-        <input value={ exp.expression } onChange={ this.handleChange } />
-        <br />
-        <button onClick={ this.toggleEdit }>Save</button>
-      </div>
-    ): (
-      <div>
-        <h2>{ exp.expression }</h2>
-        <button onClick={ this.toggleEdit }>Edit</button>
-      </div>
-    )
+    return <Card>
+        <CardHeader 
+          title={ exp.expression }
+          action={
+            <Switch 
+              checked={this.state.editing}
+              onChange={this.toggleEdit}
+            />
+          }
+        />
+        <CardContent>
+        {this.state.editing ? (<TextField
+          fullWidth
+          label='Expression to evaluate'
+         value={ exp.expression } onChange={ this.handleChange } />) :""}
+        </CardContent>
+      </Card>
   }
 }
 
@@ -65,17 +78,45 @@ class ConnectedResult extends React.Component {
   constructor(){
     super()
     this.handleClick = this.handleClick.bind(this)
+    this.state = {
+      open: false
+    }
   }
 
   handleClick(){
     this.props.evaluateExpression()
+    this.setState({ open: true });
   }
+
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
 
   render(){
     return (
       <div>
-        <h4>{ this.props.expression.result }</h4>
-        <button onClick={ this.handleClick }>Evaluate</button>
+        <Snackbar 
+        open={this.state.open}
+        autoHideDuration={2000}
+        onClose={this.handleClose}
+        message={<span id="message-id">Answer: { this.props.expression.result}</span>}
+        />
+        <Button 
+          style={{
+            position: 'fixed',
+            bottom: "20px",
+            right: "20px",
+            "z-index": "10000",
+          }}
+          variant="fab" 
+          color="primary"
+          onClick={ this.handleClick }>
+          <SendIcon />
+          </Button>
       </div>
       )
   }

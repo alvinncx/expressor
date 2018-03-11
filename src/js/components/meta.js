@@ -2,6 +2,14 @@ import React from "react"
 import { connect } from "react-redux"
 import { updateTitle, updateDescription } from "../actions"
 
+import Card, { CardActions, CardContent, CardHeader } from 'material-ui/Card';
+import Typography from 'material-ui/Typography';
+import Switch from 'material-ui/Switch';
+import TextField from 'material-ui/TextField';
+
+
+
+
 const mapStateToProps = (state) => (
   // Inner props  :  external store state
   { meta: state.meta }
@@ -33,15 +41,23 @@ class ConnectedMetaForm extends React.Component {
   render(){
     return (
       <div>
-        <input 
+        <TextField 
           type="text" 
+          fullWidth
+          label="Title"
           value={this.props.meta.title} 
           onChange={this.handleTitleChange} 
+          margin="normal"
           />
         <br />
-        <textarea 
+        <TextField
+          multiline
+          fullWidth 
+          label="Description"
           value={this.props.meta.description} 
           onChange={this.handleDescChange} 
+          margin="normal"
+
           />
       </div>
     )
@@ -66,16 +82,36 @@ class ConnectedMeta extends React.Component {
   render(){
     const meta = this.props.meta
     return this.state.editing ? (
-      <div>
-        <MetaForm meta={meta} />
-        <button onClick={this.toggleEdit} >Save</button>
-      </div>
+      <Card>
+        <CardHeader 
+          action={
+            <Switch 
+              checked={this.state.editing}
+              onChange={this.toggleEdit}
+            />
+            }
+          title={ meta.title }
+          />
+
+        <CardContent>
+          <MetaForm meta={meta} />
+        </CardContent>
+      </Card>
     ) : (
-      <div>
-        <h3>{ meta.title }</h3>
-        <p>{ meta.description }</p>
-        <button onClick={this.toggleEdit} >Edit</button>
-      </div>
+      <Card>
+        <CardHeader 
+        action={
+          <Switch 
+            checked={this.state.editing}
+            onChange={this.toggleEdit}
+          />
+          }
+        title={ meta.title }
+        />
+        <CardContent>
+          <Typography variant="body1">{ meta.description }</Typography>
+        </CardContent>
+      </Card>
       )
   }
 }

@@ -6,6 +6,19 @@ import {
   deleteVariable
  } from "../actions"
 
+import Avatar from 'material-ui/Avatar';
+import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
+import Typography from 'material-ui/Typography';
+import Switch from 'material-ui/Switch'
+import IconButton from 'material-ui/IconButton';
+import Button from 'material-ui/Button';
+import TextField from 'material-ui/TextField';
+import Icon from 'material-ui/Icon';
+import AddIcon from 'material-ui-icons/Add';
+import MinusIcon from 'material-ui-icons/Remove';
+
+
+
 const mapDispatchToProps = dispatch => ({
   updateVariableName: (id, text) => ( dispatch( updateVariableName(id, text) ) ),
   updateVariableValue: (id, float) => ( dispatch( updateVariableValue(id, float) ) ),
@@ -38,9 +51,15 @@ class ConnectedValue extends React.Component {
     const variable = this.props.variable
     return (
       <div>
-        <button onClick={ this.increase }>Increase +</button>
-        <input value={ variable.value } onChange={ this.handleChange }/>
-        <button onClick={ this.decrease }>Decrease -</button>
+        <IconButton onClick={ this.decrease} >
+          <MinusIcon />
+        </IconButton>
+        <TextField 
+          label='Value'
+          value={ variable.value } onChange={ this.handleChange }/>
+        <IconButton onClick={ this.increase} >
+          <AddIcon />
+        </IconButton>
       </div>
     )
   }
@@ -71,21 +90,30 @@ class ConnectedVariable extends React.Component {
 
   render(){
     const variable = this.props.variable
-    return this.state.editing ? ( 
-      <div>
-        <Value variable={ variable } index={this.props.index} />
-        <input value={ variable.name } onChange={ this.handleNameChange } />
-        <button onClick={ this.toggleEdit }>Save</button>
-        <button onClick={ this.handleClickDelete }>Delete</button>
-      </div>
-      ): (
-      <div>
-        <Value variable={ variable } index={this.props.index} />
-        <h3>{ variable.name }</h3>
-        <p>{ variable.label }</p>
-        <button onClick={ this.toggleEdit }>Edit</button>
-      </div>
-    )
+    return <Card>
+        <CardHeader 
+          action={
+            <Switch 
+              checked={this.state.editing}
+              onChange={this.toggleEdit}
+            />
+            }
+          avatar={<Avatar>{ variable.name }</Avatar>}
+          title={ variable.label }
+        />
+        <CardContent>
+          { this.state.editing ? (
+              <div>
+                <TextField 
+                  label='Variable name'
+                  value={ variable.name } 
+                  onChange={ this.handleNameChange } />
+                <Button color='secondary' onClick={ this.handleClickDelete }>Delete Variable</Button> </div>) 
+            : <Value variable={ variable } index={this.props.index} />
+          }
+        </CardContent>
+      </Card>
+    
   }
 }
 

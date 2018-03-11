@@ -6,6 +6,8 @@ import {
 } from '../actions'
 import Variable from './variable'
 import Constant from './constant'
+import Typography from 'material-ui/Typography'
+import Button from 'material-ui/Button'
 
 const mapStateToProps = (state) => {
   return { 
@@ -41,19 +43,25 @@ class ConnectedVariableList extends React.Component {
 
   render(){
     return (<div>
+        <Typography variant="subheading" color="inherit" style={{ padding: "1em"}}>
+          Variables
+        </Typography>
         <div>
           { this.props.variables.map( (el, index) => (
               <Variable variable={el} key={el.id} index={index} />
                 )
             ) }
-          <button onClick={ this.handleClickAddVariable }>Add Variable</button>
+          <Button onClick={ this.handleClickAddVariable }>Add New Variable</Button>
         </div>
+        <Typography variant="subheading" color="inherit" style={{ padding: "1em"}}>
+          Constants
+        </Typography>
         <div>
           { this.props.constants.map( (el, index) => (
               <Constant constant={el} key={el.id} index={index} />
                 )
             ) }
-          <button onClick={ this.handleClickAddConstant }>Add Constant</button>
+          <Button onClick={ this.handleClickAddConstant }>Add New Constant</Button>
         </div>
       </div>
     )
