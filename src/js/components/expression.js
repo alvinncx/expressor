@@ -110,7 +110,7 @@ class ConnectedResult extends React.Component {
             position: 'fixed',
             bottom: "20px",
             right: "20px",
-            "z-index": "10000",
+            "z-index": "10",
           }}
           variant="fab" 
           color="primary"

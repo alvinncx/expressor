@@ -51,7 +51,7 @@ class ConnectedVariableList extends React.Component {
               <Variable variable={el} key={el.id} index={index} />
                 )
             ) }
-          <Button onClick={ this.handleClickAddVariable }>Add New Variable</Button>
+          <Button color="primary" onClick={ this.handleClickAddVariable }>Add New Variable</Button>
         </div>
         <Typography variant="subheading" color="inherit" style={{ padding: "1em"}}>
           Constants
@@ -61,7 +61,7 @@ class ConnectedVariableList extends React.Component {
               <Constant constant={el} key={el.id} index={index} />
                 )
             ) }
-          <Button onClick={ this.handleClickAddConstant }>Add New Constant</Button>
+          <Button color="primary" onClick={ this.handleClickAddConstant }>Add New Constant</Button>
         </div>
       </div>
     )
