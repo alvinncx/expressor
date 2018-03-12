@@ -104,7 +104,7 @@ class ConnectedConstant extends React.Component {
             <TextField 
             label='Default Expression'
             value={ constant.default } onChange={ this.handleDefaultChange } />
-            <Value constant={ constant } index={this.props.index} />
+            
             <TextField 
             label='Constant Name'
             value={ constant.name } onChange={ this.handleNameChange } />

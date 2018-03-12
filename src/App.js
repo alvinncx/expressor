@@ -24,6 +24,7 @@ class MainAppBar extends Component {
     anchorEl: null,
     dialogOpen: false,
     dialogOpenFeedback: false,
+    dialogOpenRequest: false,
   };
 
   handleClick = event => {
@@ -40,8 +41,11 @@ class MainAppBar extends Component {
   handleClickFeedback = () => {
     this.setState({ anchorEl: null, dialogOpenFeedback: true });
   };
+  handleClickRequest = () => {
+    this.setState({ anchorEl: null, dialogOpenRequest: true });
+  };
   handleCloseDialog = () => {
-    this.setState({ dialogOpen: false, dialogOpenFeedback: false})
+    this.setState({ dialogOpen: false, dialogOpenFeedback: false, dialogOpenRequest: false})
   }
   
   render(){
@@ -67,6 +71,7 @@ class MainAppBar extends Component {
             onClose={this.handleClose}>
           <MenuItem onClick={this.handleClickHow}>How It Works</MenuItem>
           <MenuItem onClick={this.handleClickFeedback}>Bugs & Feedback</MenuItem>
+          <MenuItem onClick={this.handleClickRequest}>Request A Calculator!</MenuItem>
         </Menu>
         </Toolbar>
         <Dialog 
@@ -95,6 +100,22 @@ class MainAppBar extends Component {
             <DialogContentText id="alert-dialog-description">
               <p>I hope you found expressor useful and would love to hear feedback to help make it more useful for you!</p>
               <p>Please email me at <a href='mailto:alvinng15@gmail.com'>alvinng15@gmail.com</a></p>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseDialog} color="primary" autoFocus>
+                Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog 
+          open={this.state.dialogOpenRequest}
+          onClose={this.handleCloseDialog}>
+          <DialogTitle>Request A Calculator!</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <p>I would love to help you build a calculator with expressor!</p>
+              <p>Please email me at <a href='mailto:alvinng15@gmail.com'>alvinng15@gmail.com</a>!</p>
             </DialogContentText>
           </DialogContent>
           <DialogActions>

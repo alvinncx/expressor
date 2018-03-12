@@ -101,7 +101,7 @@ class ConnectedResult extends React.Component {
       <div>
         <Snackbar 
         open={this.state.open}
-        autoHideDuration={2000}
+        autoHideDuration={5000}
         onClose={this.handleClose}
         message={<span id="message-id">Answer: { this.props.expression.result}</span>}
         />
