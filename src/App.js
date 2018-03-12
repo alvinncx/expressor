@@ -16,7 +16,7 @@ class App extends Component {
         <AppBar position="static" color="primary">
           <Toolbar>
             <Typography variant="title" color="inherit">
-              Calculator.io
+              Expressor.io
             </Typography>
           </Toolbar>
         </AppBar>
