@@ -6,6 +6,7 @@ import {
   updateVariableLabel,
   deleteVariable
  } from "../actions"
+import ReactGA from 'react-ga';
 
 import Avatar from 'material-ui/Avatar';
 import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
@@ -81,6 +82,7 @@ class ConnectedVariable extends React.Component {
 
   toggleEdit(){
     this.setState({ editing: !this.state.editing })
+    ReactGA.event({ category: 'User', action: 'Toggle Edit', label: 'Variable' })
   }
 
   handleNameChange(event){

@@ -5,12 +5,12 @@ import {
   evaluateExpression,
   resolveAllConstantValue
 } from "../actions"
-import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
-import blue from 'material-ui/colors/blue';
+import Card, { CardHeader, CardContent } from 'material-ui/Card';
+import ReactGA from 'react-ga';
+
 import TextField from 'material-ui/TextField'
 import classNames from 'classnames'
 import { withStyles } from 'material-ui/styles'
-import Typography from 'material-ui/Typography'
 import Switch from 'material-ui/Switch'
 import Button from 'material-ui/Button'
 import Snackbar from 'material-ui/Snackbar'
@@ -49,6 +49,7 @@ class ConnectedExpression extends React.Component {
 
   toggleEdit(){
     this.setState({ editing: !this.state.editing })
+    ReactGA.event({ category: 'User', action: 'Toggle Edit', label: 'Expression' })
   }
 
   handleChange(event){
@@ -113,6 +114,7 @@ class ConnectedResult extends React.Component {
   handleClick(){
     this.props.evaluateExpression()
     this.setState({ open: true });
+    ReactGA.event({ category: 'User', action: 'Evaluated' })
   }
 
   handleClose = (event, reason) => {

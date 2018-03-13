@@ -3,6 +3,7 @@ import './App.css';
 import VariableList  from './js/components/list'
 import Meta from './js/components/meta'
 import { Expression, Result } from './js/components/expression'
+import ReactGA from 'react-ga';
 
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
@@ -134,6 +135,12 @@ class MainAppBar extends Component {
 
 
 class App extends Component {
+
+  componentDidMount(){
+    ReactGA.initialize('UA-115623740-1');
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }
+
   render() {
     return (
       <div className="App" style={{ paddingBottom: '100px'}}>

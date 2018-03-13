@@ -1,6 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import { updateTitle, updateDescription } from "../actions"
+import ReactGA from 'react-ga';
 
 import Card, { CardActions, CardContent, CardHeader } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
@@ -77,6 +78,7 @@ class ConnectedMeta extends React.Component {
 
   toggleEdit(){
     this.setState({ editing: !this.state.editing})
+    ReactGA.event({ category: 'User', action: 'Toggle Edit', label: 'Meta' })
   }
 
   render(){

@@ -4,6 +4,7 @@ import {
   addVariable,
   addConstant
 } from '../actions'
+import ReactGA from 'react-ga';
 import Variable from './variable'
 import Constant from './constant'
 import Typography from 'material-ui/Typography'
@@ -35,10 +36,12 @@ class ConnectedVariableList extends React.Component {
 
   handleClickAddVariable(){
     this.props.addVariable()
+    ReactGA.event({ category: 'User', action: 'Add Variable' });
   }  
 
   handleClickAddConstant(){
     this.props.addConstant()
+    ReactGA.event({ category: 'User', action: 'Add Constant' });
   }
 
   render(){
