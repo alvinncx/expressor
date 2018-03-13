@@ -74,6 +74,7 @@ class MainAppBar extends Component {
           <MenuItem onClick={this.handleClickRequest}>Request A Calculator!</MenuItem>
         </Menu>
         </Toolbar>
+
         <Dialog 
           open={this.state.dialogOpen}
           onClose={this.handleCloseDialog}>
@@ -133,7 +134,7 @@ class MainAppBar extends Component {
 class App extends Component {
   render() {
     return (
-      <div className="App" style={{ 'padding-bottom': '100px'}}>
+      <div className="App" style={{ paddingBottom: '100px'}}>
         <MainAppBar />
         <div style={{ height: "4em"}}></div>
         <Meta />
