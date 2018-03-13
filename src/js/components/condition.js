@@ -39,11 +39,11 @@ class ConnectedCondition extends React.Component {
       <div>
       <TextField 
         margin='normal'
-        label='Condition'
+        label='If true'
         value={ condition.statement } onChange={ this.handleStatementChange } />
       <TextField 
         margin='normal'
-        label='Expression'
+        label='Then'
         value={ condition.expression } onChange={ this.handleExpressionChange } />
       <IconButton onClick={ this.handleClickDelete }>
         <DeleteIcon />

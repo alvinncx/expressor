@@ -48,12 +48,12 @@ class ConnectedMetaForm extends React.Component {
           label="Title"
           value={this.props.meta.title} 
           onChange={this.handleTitleChange} 
-          margin="normal"
           />
         <br />
         <TextField
           multiline
           fullWidth 
+          rows='2'
           label="Description"
           value={this.props.meta.description} 
           onChange={this.handleDescChange} 

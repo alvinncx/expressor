@@ -117,6 +117,8 @@ class ConnectedVariable extends React.Component {
                   value={ variable.name } 
                   onChange={ this.handleNameChange } />
                 <TextField 
+                  fullWidth
+                  margin='normal'
                   label='Label'
                   value={ variable.label }
                   onChange={ this.handleChangeLabel } />

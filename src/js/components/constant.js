@@ -40,11 +40,10 @@ const CurrentCondition = ({ constant }) => (
   // Show current that is true, or show default.
   constant.trueConditionId ? (
     // Has true
-    <div>
-      {
+    <div>Current: {
         constant.conditions.find(condition => {
           return condition.id === constant.trueConditionId
-        }).statement 
+        }).expression 
       }
     </div>
   ) : (
@@ -111,22 +110,25 @@ class ConnectedConstant extends React.Component {
         <Collapse in={this.state.editing} timeout="auto" unmountOnExit>
           <CardContent>
             <TextField 
+              fullWidth
+              margin='normal'
               label='Label'
               value={ constant.label }
               onChange={ this.handleLabelChange }
               />
             <TextField 
-            label='Default Expression'
-            value={ constant.default } onChange={ this.handleDefaultChange } />
-            
-            <TextField 
-            label='Constant Name'
-            value={ constant.name } onChange={ this.handleNameChange } />
+              label='Constant Name'
+              value={ constant.name } onChange={ this.handleNameChange } 
+            />
             { 
               constant.conditions.map((condition, index) => {
             return <Condition condition={condition} key={condition.id} index_cond={index} index_const={this.props.index} />
               }) 
             }
+            <TextField 
+              fullWidth
+              label='Default value if all fails'
+              value={ constant.default } onChange={ this.handleDefaultChange } />
             <Button color='secondary' onClick={ this.handleClickDelete }>Delete Constant</Button>
             <Button onClick={ this.handleClickAdd }>Add Condition</Button>
           </CardContent>
