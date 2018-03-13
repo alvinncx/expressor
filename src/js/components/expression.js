@@ -6,12 +6,15 @@ import {
   resolveAllConstantValue
 } from "../actions"
 import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
+import blue from 'material-ui/colors/blue';
 import TextField from 'material-ui/TextField'
-import Typography from 'material-ui/Typography';
+import classNames from 'classnames'
+import { withStyles } from 'material-ui/styles'
+import Typography from 'material-ui/Typography'
 import Switch from 'material-ui/Switch'
-import Button from 'material-ui/Button';
-import Snackbar from 'material-ui/Snackbar';
-import SendIcon from 'material-ui-icons/Send'
+import Button from 'material-ui/Button'
+import Snackbar from 'material-ui/Snackbar'
+import PlayIcon from 'material-ui-icons/PlayArrow'
 
 
 
@@ -74,6 +77,30 @@ class ConnectedExpression extends React.Component {
   }
 }
 
+const styles = theme => ({
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+    zIndex: 100
+  },
+  fabMoveUp: {
+    transform: 'translate3d(0, -46px, 0)',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.enteringScreen,
+      easing: theme.transitions.easing.easeOut,
+    }),
+  },
+  fabMoveDown: {
+    transform: 'translate3d(0, 0, 0)',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.leavingScreen,
+      easing: theme.transitions.easing.sharp,
+    }),
+  },
+});
+
+
 class ConnectedResult extends React.Component {
   constructor(){
     super()
@@ -92,30 +119,27 @@ class ConnectedResult extends React.Component {
     if (reason === 'clickaway') {
       return;
     }
-
     this.setState({ open: false });
   };
 
   render(){
+    const { classes } = this.props;
+    const fabClassName = classNames(classes.fab, this.state.open ? classes.fabMoveUp : classes.fabMoveDown);
+
     return (
       <div>
         <Snackbar 
         open={this.state.open}
-        autoHideDuration={5000}
+        autoHideDuration={6000}
         onClose={this.handleClose}
         message={<span id="message-id">Answer: { this.props.expression.result}</span>}
         />
         <Button 
-          style={{
-            position: 'fixed',
-            bottom: "20px",
-            right: "20px",
-            zIndex: "10",
-          }}
+          className={fabClassName}
           variant="fab" 
-          color="primary"
+          color="secondary"
           onClick={ this.handleClick }>
-          <SendIcon />
+          <PlayIcon />
           </Button>
       </div>
       )
@@ -125,7 +149,7 @@ class ConnectedResult extends React.Component {
 
 
 const Expression = connect(mapStateToProps, mapDispatchToProps)(ConnectedExpression)
-const Result = connect(mapStateToProps, mapDispatchToProps)(ConnectedResult)
+const ResultStyle = connect(mapStateToProps, mapDispatchToProps)(ConnectedResult)
+const Result = withStyles(styles)(ResultStyle)
 
-
-export { Expression, Result }
+export { Expression,  Result}

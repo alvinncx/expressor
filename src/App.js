@@ -81,10 +81,13 @@ class MainAppBar extends Component {
           <DialogTitle>Welcome to Expressor!</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <p>Expressor allows you to create resuable calculators using expressions, variables & conditions.</p>
-              <p>First, type in an expression you want to evaluate. An expression is like a formula. Standard list of functions are included (arithmetic, sqrts, ^, etc).</p>
-              <p>Next define the variables and constants. Use variables for symbols that you will vary in value for calculations. Use constants when you need it to change according to rules or conditions.</p>
-              <p>Once you are done, simply hit the button on the bottom left to get the answer!</p>
+              Expressor allows you to create resuable calculators using expressions, variables & conditions.
+              <br/>
+              First, type in an expression you want to evaluate. An expression is like a formula. Standard list of functions are included (arithmetic, sqrts, ^, etc).
+              <br/>
+              Next define the variables and constants. Use variables for symbols that you will vary in value for calculations. Use constants when you need it to change according to rules or conditions.
+              <br/>
+              Once you are done, simply hit the button on the bottom left to get the answer!
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -98,9 +101,8 @@ class MainAppBar extends Component {
           onClose={this.handleCloseDialog}>
           <DialogTitle>Bugs & Feedback</DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              <p>I hope you found expressor useful and would love to hear feedback to help make it more useful for you!</p>
-              <p>Please email me at <a href='mailto:alvinng15@gmail.com'>alvinng15@gmail.com</a></p>
+            <DialogContentText id="alert-dialog-description">I hope you found expressor useful and would love to hear feedback to help make it more useful for you!
+              Please email me at <a href='mailto:alvinng15@gmail.com'>alvinng15@gmail.com</a>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -115,8 +117,8 @@ class MainAppBar extends Component {
           <DialogTitle>Request A Calculator!</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              <p>I would love to help you build a calculator with expressor!</p>
-              <p>Please email me at <a href='mailto:alvinng15@gmail.com'>alvinng15@gmail.com</a>!</p>
+              I would love to help you build a calculator with expressor.io!
+              Please email me at <a href='mailto:alvinng15@gmail.com'>alvinng15@gmail.com</a>!
             </DialogContentText>
           </DialogContent>
           <DialogActions>
