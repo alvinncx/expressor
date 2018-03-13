@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { 
   updateVariableName,
   updateVariableValue,
+  updateVariableLabel,
   deleteVariable
  } from "../actions"
 
@@ -22,6 +23,7 @@ import MinusIcon from 'material-ui-icons/Remove';
 const mapDispatchToProps = dispatch => ({
   updateVariableName: (id, text) => ( dispatch( updateVariableName(id, text) ) ),
   updateVariableValue: (id, float) => ( dispatch( updateVariableValue(id, float) ) ),
+  updateVariableLabel: (id, text) => ( dispatch( updateVariableLabel(id, text) ) ),
   deleteVariable: (id, float) => ( dispatch( deleteVariable(id, float) ) )
 })
 
@@ -74,6 +76,7 @@ class ConnectedVariable extends React.Component {
     this.toggleEdit = this.toggleEdit.bind(this)
     this.handleNameChange = this.handleNameChange.bind(this)
     this.handleClickDelete = this.handleClickDelete.bind(this)
+    this.handleChangeLabel = this.handleChangeLabel.bind(this)
   }
 
   toggleEdit(){
@@ -86,6 +89,9 @@ class ConnectedVariable extends React.Component {
 
   handleClickDelete(){
     this.props.deleteVariable(this.props.index)
+  }
+  handleChangeLabel(event){
+    this.props.updateVariableLabel(this.props.index, event.target.value)
   }
 
   render(){
@@ -108,6 +114,10 @@ class ConnectedVariable extends React.Component {
                   label='Variable name'
                   value={ variable.name } 
                   onChange={ this.handleNameChange } />
+                <TextField 
+                  label='Label'
+                  value={ variable.label }
+                  onChange={ this.handleChangeLabel } />
                 <Button color='secondary' onClick={ this.handleClickDelete }>Delete Variable</Button> </div>) 
             : <Value variable={ variable } index={this.props.index} />
           }

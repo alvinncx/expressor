@@ -4,6 +4,7 @@ import {
   updateConstantName,
   updateConstantValue,
   updateConstantDefault,
+  updateConstantLabel,
   resolveConstantValue,
   deleteConstant,
   addCondition
@@ -24,6 +25,7 @@ const mapDispatchToProps = dispatch => ({
   updateConstantName: (index, text) => ( dispatch( updateConstantName(index, text) ) ),
   updateConstantValue: (index, float) => ( dispatch( updateConstantValue(index, float) ) ),
   updateConstantDefault: (index, text) => ( dispatch( updateConstantDefault(index, text) ) ),
+  updateConstantLabel: (index, text) => ( dispatch( updateConstantLabel(index, text) ) ),
   resolveConstantValue: (index) => ( dispatch(resolveConstantValue(index)) ),
   deleteConstant: (index) => ( dispatch(deleteConstant(index)) ),
   addCondition: (index) => ( dispatch(addCondition(index)) ),
@@ -56,6 +58,7 @@ class ConnectedConstant extends React.Component {
     this.toggleEdit = this.toggleEdit.bind(this)
     this.handleNameChange = this.handleNameChange.bind(this)
     this.handleDefaultChange = this.handleDefaultChange.bind(this)
+    this.handleLabelChange = this.handleLabelChange.bind(this)
     this.handleClickDelete = this.handleClickDelete.bind(this)
     this.handleClickAdd = this.handleClickAdd.bind(this)
   }
@@ -85,6 +88,10 @@ class ConnectedConstant extends React.Component {
     this.props.addCondition(this.props.index)
   }
 
+  handleLabelChange(event){
+    this.props.updateConstantLabel(this.props.index, event.target.value)
+  }
+
   render(){
     const constant = this.props.constant
     return <Card>
@@ -101,6 +108,11 @@ class ConnectedConstant extends React.Component {
         />
         <Collapse in={this.state.editing} timeout="auto" unmountOnExit>
           <CardContent>
+            <TextField 
+              label='Label'
+              value={ constant.label }
+              onChange={ this.handleLabelChange }
+              />
             <TextField 
             label='Default Expression'
             value={ constant.default } onChange={ this.handleDefaultChange } />

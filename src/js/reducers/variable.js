@@ -4,6 +4,7 @@ import {
   DELETE_VARIABLE,
   UPDATE_VARIABLE_NAME,
   UPDATE_VARIABLE_VALUE,
+  UPDATE_VARIABLE_LABEL
 } from "../constants/actionTypes"
 
 
@@ -13,6 +14,9 @@ const variablesReducer = function(state=[], action){
       return dotProp.set(state, `${action.index}.name`, action.payload)
     case UPDATE_VARIABLE_VALUE:
       return dotProp.set(state, `${action.index}.value`, action.payload)
+    case UPDATE_VARIABLE_LABEL:
+      return dotProp.set(state, `${action.payload.index}.label`, action.payload.label)
+
     case ADD_VARIABLE:
       return [
         ...state,

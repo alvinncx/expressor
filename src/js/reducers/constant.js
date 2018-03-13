@@ -3,6 +3,7 @@ import {
   UPDATE_CONSTANT_NAME,
   RESOLVE_CONSTANT_VALUE,
   UPDATE_CONSTANT_DEFAULT,
+  UPDATE_CONSTANT_LABEL,
   ADD_CONSTANT,
   DELETE_CONSTANT,
   RESOLVE_ALL_CONSTANT_VALUE,
@@ -27,6 +28,8 @@ const constantsReducer = function(state=[], action){
           trueConditionId: action.payload.trueConditionId
         }
       })
+    case UPDATE_CONSTANT_LABEL:
+      return dotProp.set(state, `${action.payload.index}.label`, action.payload.label)
     case UPDATE_CONDITION_STATEMENT:
       return state.map((item, index_in) => {
         if (index_in !== action.payload.index_const ) return item

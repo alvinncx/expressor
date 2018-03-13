@@ -17,8 +17,10 @@ import {
   DELETE_VARIABLE,
   UPDATE_VARIABLE_NAME,
   UPDATE_VARIABLE_VALUE,
+  UPDATE_VARIABLE_LABEL,
   UPDATE_CONSTANT_VALUE,
   UPDATE_CONSTANT_NAME,
+  UPDATE_CONSTANT_LABEL,
   ADD_CONSTANT,
   DELETE_CONSTANT,
   UPDATE_CONSTANT_DEFAULT,
@@ -90,6 +92,16 @@ const updateVariableName = (index, text) => {
   }
 }
 
+const updateVariableLabel = createAction(
+  UPDATE_VARIABLE_LABEL,
+  function(index, label){
+    return {
+      index: index,
+      label: label
+    }
+  }
+)
+
 const updateVariableValue = (index, float) => {
   return {
     type: UPDATE_VARIABLE_VALUE,
@@ -145,6 +157,16 @@ const updateConstantValue = (index, float) => {
     payload: float
   }
 }
+
+const updateConstantLabel = createAction(
+  UPDATE_CONSTANT_LABEL,
+  function(index, label){
+    return {
+      index: index,
+      label: label
+    }
+  }
+)
 
 const updateConstantDefault = createAction(
   UPDATE_CONSTANT_DEFAULT,
@@ -256,9 +278,12 @@ export {
   deleteVariable,
   updateVariableName,
   updateVariableValue,
+  updateVariableLabel,
+  
   updateConstantName,
   updateConstantValue,
   updateConstantDefault,
+  updateConstantLabel,
   
   addConstant,
   deleteConstant,
